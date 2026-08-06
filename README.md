@@ -128,6 +128,7 @@ Logs are appended instead of overwritten, preserving the history of every cleanu
 - `<fstream>`
 - Object-Oriented Programming
 - Modular Project Architecture
+- Shell Scripts
 
 ---
 
@@ -159,7 +160,7 @@ downTidy/
 
 ---
 
-## 🚀 Building
+## 🚀 Building in Local
 
 Compile using g++:
 
@@ -184,28 +185,32 @@ For release builds:
 - Configuration file support
 - User-defined categories
 - SHA-256 hashing option
-- File type icons
+- File-type icons
 - GUI version
-- Background monitoring mode
-- Drag & Drop support
-- Undo last organization
-- File size statistics
-- Multi-threaded processing
+- One-Click Tide Directory Feature
+- Undo Last Organization
+- File Size statistics
+- Multi-Threaded processing
 
 ---
 
-## 👨‍💻 Author
+## 🖋 Author
 
-**Ettisaf Rup**  
-GitHub: **[@ettisafxrup](https://github.com/ettisafxrup)**
+**Ettisaf Rup**
+
+![Instagram](https://img.shields.io/badge/Instagram-ettisafxrup-red?logo=instagram)
+![Linkedin](https://img.shields.io/badge/Linkedin-ettisafxrup-blue?logo=instagram) ![Facebook](https://img.shields.io/badge/Facebook-ettisafxrup-indigo?logo=facebook)
+![Instagram](https://img.shields.io/badge/Github-ettisafxrup-red?logo=github)
 
 ---
 
-## ⭐ Support
+## 🤲 Support downTidy
 
 If you found this project useful, consider giving it a ⭐ on GitHub.
-
 It helps others discover the project and motivates future improvements.
 
+and if anyone wills to donate, you can bring me to a tong.
+
 ---
-# downTidy
+
+_ettisafxrup downTidy@2026 | all rights reserved_
