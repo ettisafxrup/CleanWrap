@@ -197,6 +197,9 @@ For release builds:
 ## 🖋 Author
 
 **Ettisaf Rup**
+<br><small> Former Technical Lead, ProximaIT </small><br>
+<small> Software Lead, XtendArena </small><br>
+<small>BSc. in Computer Science & Engineering, KUET </small>
 
 ![Instagram](https://img.shields.io/badge/Instagram-ettisafxrup-red?logo=instagram)
 ![Linkedin](https://img.shields.io/badge/Linkedin-ettisafxrup-blue?logo=instagram) ![Facebook](https://img.shields.io/badge/Facebook-ettisafxrup-indigo?logo=facebook)
@@ -217,4 +220,4 @@ and if anyone wills to donate, you can bring me to a tong.
 
 ---
 
-_ettisafxrup downTidy@2026 | all rights reserved_
+<small> _ettisafxrup downTidy@2026 | all rights reserved_ </small>
