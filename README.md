@@ -1,4 +1,4 @@
-<img width="1440" height="805" alt="WhatsApp Image 2026-08-06 at 22 19 22" src="https://github.com/user-attachments/assets/d111e073-c3c8-47ec-92e2-553ace4b329f" />
+<img width="1140" height="505" alt="WhatsApp Image 2026-08-06 at 22 19 22" src="https://github.com/user-attachments/assets/d111e073-c3c8-47ec-92e2-553ace4b329f" />
 
 # 📂 CleanWrap
 
