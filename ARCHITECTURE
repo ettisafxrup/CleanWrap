@@ -1,19 +1,36 @@
 📁 Application Structure:
 
 .
-├── downTidy.exe
-├── gen.sh
+├── 📂 assets
+│ ├── cleanwrap.ico
+│ ├── installer_banner.bmp
+│ ├── installer_icon.bmp
+│ ├── logo.png
+│
 ├── 📂 include
-│   ├── DuplicateDetector.hpp
-│   ├── FileClassifier.hpp
-│   ├── FileOrganizer.hpp
-│   ├── FileTypes.hpp
-│   ├── Statistics.hpp
+│ ├── DuplicateDetector.hpp
+│ ├── FileClassifier.hpp
+│ ├── FileOrganizer.hpp
+│ ├── FileTypes.hpp
+│ ├── Notifications.hpp
+│ ├── Statistics.hpp
+│
+├── 📂 src
+│ ├── DuplicateDetector.cpp
+│ ├── FileClassifier.cpp
+│ ├── FileOrganizer.cpp
+│ ├── FileTypes.cpp
+│ ├── Statistics.cpp
+│
+├── LICENSE
 ├── main.cpp
 ├── README.md
-├── 📂 src
-│   ├── DuplicateDetector.cpp
-│   ├── FileClassifier.cpp
-│   ├── FileOrganizer.cpp
-│   ├── FileTypes.cpp
-│   ├── Statistics.cpp
+├── release.sh
+├── 📂 release
+│ ├── 📂 CleanWrap_beta
+│ │ ├── CleanWrap_v1.0.exe
+│ ├── 📂 CleanWrap_v1.0
+│ │ ├── CleanWrap_v1.0_Setup.exe
+├── 📂 script
+│ ├── cleanwrap_v1.0.iss
+│

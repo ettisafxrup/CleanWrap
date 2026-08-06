@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <filesystem>
+#include <set>
 
 namespace fs = std::filesystem;
 class Statistics
@@ -11,7 +12,7 @@ public:
     void addFile(const std::string &category);
     void addDuplicate();
     void addError();
-    void print(const fs::path &downloadsPath) const;
+    void print(const fs::path &targetFolderPath, const std::set<std::string> &categories) const;
 
 private:
     std::unordered_map<std::string, int> categoryCounts;

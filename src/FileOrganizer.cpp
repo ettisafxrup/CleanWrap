@@ -3,37 +3,13 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <algorithm>
+#include <set>
 
 FileOrganizer::FileOrganizer(
     const fs::path &p)
-    : downloadsPath(p)
+    : targetFolderPath(p)
 {
-    categories =
-        {
-            "Images",
-            "PDFs",
-            "Videos",
-            "Audio",
-            "Code",
-            "Zips",
-            "Executables and Installers",
-            "Documents",
-            "Others"};
-}
-
-void FileOrganizer::createFolders()
-{
-    for (const auto &category : categories)
-    {
-        fs::create_directories(
-            downloadsPath /
-            category);
-
-        fs::create_directories(
-            downloadsPath /
-            category /
-            ("Duplicates_" + category));
-    }
 }
 
 fs::path FileOrganizer::getUniquePath(
@@ -73,13 +49,18 @@ fs::path FileOrganizer::getUniquePath(
 void FileOrganizer::organizeFile(
     const fs::path &source)
 {
+
     const std::string category =
         FileClassifier::classify(
             source);
 
+    categories.insert(category);
+
     const fs::path categoryFolder =
-        (downloadsPath /
+        (targetFolderPath /
          category);
+
+    fs::create_directories(categoryFolder);
 
     fs::path destinationFolder;
 
@@ -94,7 +75,9 @@ void FileOrganizer::organizeFile(
     {
         destinationFolder =
             categoryFolder /
-            ("Duplicates_" + category);
+            "Duplicates";
+
+        fs::create_directories(destinationFolder);
 
         statistics.addDuplicate();
     }
@@ -103,13 +86,11 @@ void FileOrganizer::organizeFile(
         duplicateDetector.rememberOriginal(
             source,
             category);
+
+        // Category folder is the destination if the file is not a duplicate.
         destinationFolder =
             categoryFolder;
     }
-
-    // Ensure the destination exists.
-    fs::create_directories(
-        destinationFolder);
 
     fs::path destination =
         destinationFolder /
@@ -124,43 +105,40 @@ void FileOrganizer::organizeFile(
         source,
         destination);
 
-    // Counts every moved file,
-    // including duplicates.
+    // Counts with how many files it worked.
     statistics.addFile(
         category);
 }
 
 void FileOrganizer::organize()
 {
-    if (!fs::exists(downloadsPath))
+    if (!fs::exists(targetFolderPath))
     {
         throw std::runtime_error(
-            "Downloads folder does not exist: " +
-            downloadsPath.string());
+            "Target folder does not exist: " +
+            targetFolderPath.string());
     }
 
-    if (!fs::is_directory(downloadsPath))
+    if (!fs::is_directory(targetFolderPath))
     {
         throw std::runtime_error(
-            "Downloads path is not a directory.");
+            "Target folder is not a directory.");
     }
-
-    createFolders();
 
     for (
         const auto &entry :
         fs::directory_iterator(
-            downloadsPath))
+            targetFolderPath))
     {
-        // Ignore downTidy's own log.
+        // Ignoring CleanWrap's own log.
         if (
             entry.path().filename() ==
-            "_downTidy.log")
+            "_CleanWrap.log")
         {
             continue;
         }
 
-        // Ignore category folders.
+        // Ignoring category folders. (Otherwise it may cause a infinite loop of directories.)
         if (!entry.is_regular_file())
         {
             continue;
@@ -186,5 +164,5 @@ void FileOrganizer::organize()
     }
 
     statistics.print(
-        downloadsPath);
+        targetFolderPath, categories);
 }

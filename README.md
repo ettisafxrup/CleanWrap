@@ -1,4 +1,4 @@
-# 📂 downTidy
+# 📂 CleanWrap
 
 > A lightweight C++ application that automatically organizes your Downloads folder into categorized directories with smart duplicate detection.
 
@@ -10,9 +10,9 @@
 
 ## 📖 Overview
 
-**downTidy** is a desktop utility built entirely in modern C++ that helps keep your **Downloads** folder clean and organized.
+**CleanWrap** is a desktop utility built entirely in modern C++ that helps keep your **Downloads** folder clean and organized.
 
-Instead of manually sorting downloaded files, downTidy automatically classifies them into dedicated folders while intelligently handling duplicate files.
+Instead of manually sorting downloaded files, CleanWrap automatically classifies them into dedicated folders while intelligently handling duplicate files.
 
 The application is designed to run once, organize everything in seconds, generate a cleanup report, and exit.
 
@@ -21,71 +21,79 @@ The application is designed to run once, organize everything in seconds, generat
 ## ✨ Features
 
 - Automatically organizes downloaded files
+- Organizes any folder through the Windows Explorer Context Menu
 - Categorizes files by extension
-- Supports documents, images, videos, audio, code files, archives, executables, and more
-- Detects duplicate files using file hashing
+- Creates category folders only when needed
+- Creates duplicate folders only when duplicates are detected
+- Supports documents, images, videos, audio, code files, archives, executables, installers, and many more
+- Detects duplicate files using high-speed 64-bit FNV-1a hashing
+- Recognizes common Windows duplicate filename patterns
 - Places duplicate files into dedicated duplicate folders
-- Generates a cleanup log after every execution
-- Lightweight and fast
-- Modular architecture using multiple C++ classes
-- Built with Modern C++20
+- Automatically generates detailed cleanup logs
+- Can automatically organize Downloads every time Windows starts (optional)
+- Lightweight and extremely fast
+- Modular object-oriented architecture
+- Built entirely using Modern C++20
 
 ---
 
-After Installing downTidy, your **Downloads** Folder will look never cleaner than this-
+After Installing CleanWrap, your **Downloads** Folder will look never cleaner than this-
 
 ## 📂 Downloads Folder Structure
+
+Folders are created only when at least one file belongs to that category. Likewise, duplicate folders are created only when duplicate files are detected.
 
 ```text
 Downloads/
 
 ├── Images/
-│   └── Duplicates_Images/
+│   └── Duplicates/ (if any)
 │
 ├── PDFs/
-│   └── Duplicates_PDFs/
+│   └── Duplicates/ (if any)
 │
 ├── Videos/
-│   └── Duplicates_Videos/
+│   └── Duplicates/ (if any)
 │
 ├── Audio/
-│   └── Duplicates_Audio/
+│   └── Duplicates/ (if any)
 │
 ├── Code/
-│   └── Duplicates_Code/
+│   └── Duplicates/ (if any)
 │
 ├── Documents/
-│   └── Duplicates_Documents/
+│   └── Duplicates/ (if any)
 │
 ├── Zips/
-│   └── Duplicates_Zips/
+│   └── Duplicates/ (if any)
 │
 ├── Executables and Installers/
-│   └── Duplicates_Executables and Installers/
+│   └── Duplicates/ (if any)
 │
 ├── Others/
-│   └── Duplicates_Others/
+│   └── Duplicates/ (if any)
 │
-└── _downTidy.log
+└── _CleanWrap.log
+
 ```
 
 ---
 
 ## 🧠 Duplicate Detection
 
-downTidy uses a two-stage duplicate detection system.
+CleanWrap uses a two-stage duplicate detection system.
 
 ### 1. Hash-Based Detection
 
 Every file is hashed using a fast 64-bit FNV-1a hashing algorithm.
 
-If another file with the exact same content already exists, downTidy identifies it as a duplicate.
+If another file with the exact same content already exists, CleanWrap identifies it as a duplicate.
 
 ---
 
 ### 2. Windows Copy Pattern Recognition
 
-downTidy also recognizes common Windows duplicate filename patterns, including:
+CleanWrap also recognizes common Windows duplicate filename patterns, including:
 
 ```text
 My File (1).pdf
@@ -96,23 +104,29 @@ Assignment - Copy (3).docx
 
 These filename patterns are checked alongside hash matching before classifying them as duplicates.
 
+### 3. Timestamp-Aware Duplicate Handling
+
+When identical files are detected, CleanWrap intelligently keeps the original file in the main category folder while moving Windows-generated duplicate copies (such as `(1)` or `- Copy`) into the corresponding duplicate folder.
+
+This preserves the original file structure while separating unnecessary duplicates.
+
 ---
 
 ## 📝 Logging
 
-After every execution, downTidy generates a report named
+After every execution, CleanWrap generates a report named
 
 ```text
-_downTidy.log
+_CleanWrap.log
 ```
 
 The report includes:
 
-- Date & time
-- Number of files processed
-- Category-wise statistics
-- Duplicate count
-- Error count
+- Cleanup session timestamp
+- Category-wise file counts
+- Total files handled
+- Duplicate statistics
+- Error statistics
 
 Logs are appended instead of overwritten, preserving the history of every cleanup session.
 
@@ -122,28 +136,39 @@ Logs are appended instead of overwritten, preserving the history of every cleanu
 
 - Modern C++20
 - STL
+- FNV-1a 64-bit Hashing
 - `<filesystem>`
 - `<unordered_map>`
 - `<regex>`
 - `<fstream>`
 - Object-Oriented Programming
 - Modular Project Architecture
+- Windows Registry Integration
+- Windows Explorer Context Menu
 - Shell Scripts
+- Inno Scripts
 
 ---
 
 ## 📦 Project Structure
 
 ```text
-downTidy/
+CleanWrap/
+📁 Application Structure:
+
 .
-├── downTidy.exe
+├── 📂 assets
+│   ├── cleanwrap.ico
+│   ├── installer_banner.bmp
+│   ├── installer_icon.bmp
+│   ├── logo.png
 │
 ├── 📂 include
 │   ├── DuplicateDetector.hpp
 │   ├── FileClassifier.hpp
 │   ├── FileOrganizer.hpp
 │   ├── FileTypes.hpp
+│   ├── Notifications.hpp
 │   ├── Statistics.hpp
 │
 ├── 📂 src
@@ -153,10 +178,36 @@ downTidy/
 │   ├── FileTypes.cpp
 │   ├── Statistics.cpp
 │
+├── LICENSE
 ├── main.cpp
 ├── README.md
+├── release.sh
+├── 📂 release
+│   ├── 📂 CleanWrap_beta
+│   │   ├── CleanWrap_v1.0.exe
+│   ├── 📂 CleanWrap_v1.0
+│   │   ├── CleanWrap_v1.0_Setup.exe
+├── 📂 script
+│   ├── cleanwrap_v1.0.iss
+│
 
 ```
+
+---
+
+## 💻 Installation
+
+Download the latest installer from the Releases page.
+
+Run the installer and optionally enable:
+
+- Windows Explorer Context Menu Integration
+- Automatically organize Downloads when Windows starts
+
+After installation, you can:
+
+- Launch CleanWrap normally to organize the Downloads folder.
+- Right-click inside any folder and select **Organize with CleanWrap**.
 
 ---
 
@@ -169,7 +220,7 @@ g++ -O2 -std=c++17 ^
 -Iinclude ^
 main.cpp ^
 src/*.cpp ^
--o downTidy.exe
+-o CleanWrap.exe
 ```
 
 For release builds:
@@ -180,44 +231,46 @@ For release builds:
 
 ---
 
-## 🎯 Future Improvements
+## ✅ Scored Targeted Improvements
 
-- Configuration file support
-- User-defined categories
-- SHA-256 hashing option
-- File-type icons
-- GUI version
-- One-Click Tide Directory Feature
-- Undo Last Organization
-- File Size statistics
-- Multi-Threaded processing
+- Configuration file support ✅
+- File-type icons ✅
+- Easier Installation with Installer ✅
+- One-Click Tide Directory Feature ✅
+- Better Logging ✅
+
+---
+
+## Future Improvements
+
+- Drag & Drop Support
+- Automatic Update Checker
+- Dark Mode GUI
+- Custom Category Rules
+- Configuration File (.json)
+- File Preview
+- Localization
 
 ---
 
 ## 🖋 Author
 
-**Ettisaf Rup**
-<br><small> Former Technical Lead, ProximaIT </small><br>
-<small> Software Lead, XtendArena </small><br>
-<small>BSc. in Computer Science & Engineering, KUET </small>
+**Ettisaf Rup**  
+GitHub: https://github.com/ettisafxrup
 
-![Instagram](https://img.shields.io/badge/Instagram-ettisafxrup-red?logo=instagram)
-![Linkedin](https://img.shields.io/badge/Linkedin-ettisafxrup-blue?logo=instagram) ![Facebook](https://img.shields.io/badge/Facebook-ettisafxrup-indigo?logo=facebook)
-![Instagram](https://img.shields.io/badge/Github-ettisafxrup-red?logo=github)
+Designed and developed with ❤️ using Modern C++.
 
 ---
 
-## 🤲 Support downTidy
+## 🤲 Support CleanWrap
 
 If you found this project useful, consider giving it a ⭐ on GitHub.
 It helps others discover the project and motivates future improvements.
 
 and if anyone wills to donate, you can bring me to a tong.
 
-<a href="https://github.com/ettisafxrup/downTidy/releases" target="_blank">
-
-![Download](https://img.shields.io/badge/📥-Download-blue) </a> ![Stars](https://img.shields.io/github/stars/ettisafxrup/downTidy)
+[![Download Latest Release](https://img.shields.io/badge/Download-CleanWrap%20v1.0-success?style=for-the-badge)](https://github.com/ettisafxrup/CleanWrap/releases/latest)
 
 ---
 
-<small> _ettisafxrup downTidy@2026 | all rights reserved_ </small>
+<small> _ettisafxrup CleanWrap@2026 | all rights reserved_ </small>

@@ -3,7 +3,7 @@
 
 #include <filesystem>
 #include <string>
-#include <vector>
+#include <set>
 #include "DuplicateDetector.hpp"
 #include "Statistics.hpp"
 
@@ -12,21 +12,18 @@ namespace fs = std::filesystem;
 class FileOrganizer
 {
 public:
-    explicit FileOrganizer(const fs::path &downloadsPath);
+    explicit FileOrganizer(const fs::path &targetFolderPath);
     void organize();
+    std::set<std::string> categories;
 
 private:
-    fs::path downloadsPath;
-
-    std::vector<std::string> categories;
+    fs::path targetFolderPath;
 
     DuplicateDetector duplicateDetector;
 
     Statistics statistics;
 
     void createFolders();
-
-    void getDownloadPath();
 
     fs::path getUniquePath(const fs::path &desiredPath);
 

@@ -4,7 +4,7 @@
 #include "include/FileOrganizer.hpp"
 namespace fs = std::filesystem;
 
-int main()
+int main(int argc, char *argv[])
 {
     const char *userProfile = std::getenv("USERPROFILE");
     if (!userProfile)
@@ -13,12 +13,23 @@ int main()
         return 1;
     }
 
-    fs::path downloadsPath = fs::path(userProfile) / "Downloads";
-    
+    fs::path targetFolderPath;
+
+    if (argc >= 2)
+    {
+        // Windows passed a folder path
+        targetFolderPath = argv[1];
+    }
+    else
+    {
+        // Normal startup
+        targetFolderPath = fs::path(userProfile) / "Downloads";
+    }
+
     try
     {
         // Including File Organizer class to organize files in the Downloads folder
-        FileOrganizer organizer(downloadsPath);
+        FileOrganizer organizer(targetFolderPath);
         organizer.organize();
     }
     catch (const std::exception &e)
