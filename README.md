@@ -6,6 +6,9 @@
 ![Platform](https://img.shields.io/badge/Platform-Windows-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+![![Download](https://github.com/ettisafxrup/downTidy/releases)](https://img.shields.io/badge/📥-Download-blue)
+![Stars](https://img.shields.io/github/stars/ettisafxrup/downTidy)
+
 ---
 
 ## 📖 Overview
