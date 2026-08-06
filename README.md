@@ -6,14 +6,6 @@
 ![Platform](https://img.shields.io/badge/Platform-Windows-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-<a href="https://github.com/ettisafxrup/downTidy/releases" target="_blank">
-
-![Download](https://img.shields.io/badge/📥-Download-blue)
-
-</a>
-
-![Stars](https://img.shields.io/github/stars/ettisafxrup/downTidy)
-
 ---
 
 ## 📖 Overview
@@ -218,6 +210,10 @@ If you found this project useful, consider giving it a ⭐ on GitHub.
 It helps others discover the project and motivates future improvements.
 
 and if anyone wills to donate, you can bring me to a tong.
+
+<a href="https://github.com/ettisafxrup/downTidy/releases" target="_blank">
+
+![Download](https://img.shields.io/badge/📥-Download-blue) </a> ![Stars](https://img.shields.io/github/stars/ettisafxrup/downTidy)
 
 ---
 
