@@ -1,0 +1,1 @@
+g++ -O2 -std=c++20 -Wall -Wextra -Iinclude main.cpp src/*.cpp -o downTidy.exe -mwindows -static-libgcc -static-libstdc++

@@ -1,0 +1,19 @@
+📁 Application Structure:
+
+.
+├── downTidy.exe
+├── gen.sh
+├── 📂 include
+│   ├── DuplicateDetector.hpp
+│   ├── FileClassifier.hpp
+│   ├── FileOrganizer.hpp
+│   ├── FileTypes.hpp
+│   ├── Statistics.hpp
+├── main.cpp
+├── README.md
+├── 📂 src
+│   ├── DuplicateDetector.cpp
+│   ├── FileClassifier.cpp
+│   ├── FileOrganizer.cpp
+│   ├── FileTypes.cpp
+│   ├── Statistics.cpp
