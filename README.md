@@ -7,8 +7,11 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 <a href="https://github.com/ettisafxrup/downTidy/releases" target="_blank">
-![Download](https://github.com/ettisafxrup/downTidy/releases)(https://img.shields.io/badge/📥-Download-blue)
+
+![Download](https://img.shields.io/badge/📥-Download-blue)
+
 </a>
+
 ![Stars](https://img.shields.io/github/stars/ettisafxrup/downTidy)
 
 ---
