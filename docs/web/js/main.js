@@ -257,79 +257,108 @@
   ]
 
   /* ---------------- Rendering ---------------- */
-  function render() {
-    const fc = document.getElementById("featureCards")
-    if (fc) {
-      fc.innerHTML = FEATURES.map(
-        (f) =>
-          '<article class="card reveal"><div class="card-icon">' +
-          svg(f.i) +
-          "</div><h4>" +
-          f.t +
-          "</h4><p>" +
-          f.d +
-          "</p></article>",
-      ).join("")
-    }
+  const setHtml = (id, html) => {
+    const node = document.getElementById(id)
+    if (node) node.innerHTML = html
+  }
 
-    const ft = document.getElementById("fileTypeGrid")
-    if (ft) {
-      ft.innerHTML = FILETYPES.map(
+  const render = () => {
+    setHtml(
+      "featureCards",
+      FEATURES.map(
         (f) =>
-          '<div class="ft reveal zoom"><div class="ficon">' +
-          svg(f.i) +
-          "</div><b>" +
-          f.t +
-          "</b><small>" +
-          f.e +
-          "</small></div>",
-      ).join("")
-    }
+          `<article class="card reveal"><div class="card-icon">${svg(f.i)}</div><h4>${f.t}</h4><p>${f.d}</p></article>`,
+      ).join(""),
+    )
 
-    const sg = document.getElementById("shotGrid")
-    if (sg) {
-      sg.innerHTML = SHOTS.map(
+    setHtml(
+      "fileTypeGrid",
+      FILETYPES.map(
+        (f) =>
+          `<div class="ft reveal zoom"><div class="ficon">${svg(f.i)}</div><b>${f.t}</b><small>${f.e}</small></div>`,
+      ).join(""),
+    )
+
+    setHtml(
+      "shotGrid",
+      SHOTS.map(
         (s, idx) =>
-          '<figure class="shot reveal" style="margin:0"><div class="ph">' +
-          svg(I.image) +
-          "<span>assets/screenshots/screenshot" +
-          (idx + 1) +
-          ".png</span></div>" +
-          '<figcaption class="shot-body"><h4>' +
-          s.t +
-          "</h4><p>" +
-          s.d +
-          "</p></figcaption></figure>",
-      ).join("")
-    }
+          `<figure class="shot reveal"><div class="ph">${svg(I.image)}<span>assets/screenshots/screenshot${
+            idx + 1
+          }.png</span></div><figcaption class="shot-body"><h4>${s.t}</h4><p>${s.d}</p></figcaption></figure>`,
+      ).join(""),
+    )
 
-    const rm = document.getElementById("roadmapList")
-    if (rm) {
-      rm.innerHTML = ROADMAP.map(
+    setHtml(
+      "roadmapList",
+      ROADMAP.map(
         (r) =>
-          '<div class="rm reveal from-left"><h4>' +
-          r.t +
-          ' <span class="tag ' +
-          r.c +
-          '">' +
-          r.s +
-          "</span></h4><p>" +
-          r.d +
-          "</p></div>",
-      ).join("")
-    }
+          `<div class="rm reveal from-left"><h4>${r.t} <span class="tag ${r.c}">${r.s}</span></h4><p>${r.d}</p></div>`,
+      ).join(""),
+    )
 
-    const fq = document.getElementById("faqList")
-    if (fq) {
-      fq.innerHTML = FAQ.map(
+    setHtml(
+      "faqList",
+      FAQ.map(
         (f) =>
-          '<div class="acc reveal"><button class="acc-q" type="button" aria-expanded="false"><span>' +
-          f.q +
-          '</span><span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>' +
-          '<div class="acc-a"><p>' +
-          f.a +
-          "</p></div></div>",
-      ).join("")
+          `<div class="acc reveal"><button class="acc-q" type="button" aria-expanded="false"><span>${f.q}</span><span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button><div class="acc-a"><p>${f.a}</p></div></div>`,
+      ).join(""),
+    )
+  }
+
+  /* ---------------- GitHub stats ---------------- */
+  const GH_REPO = "ettisafxrup/CleanWrap"
+
+  function formatNumber(value, suffix = "") {
+    return value.toLocaleString() + suffix
+  }
+
+  function updateGithubStats(stars, downloads) {
+    const starsNode = document.getElementById("git-stars")
+    const downloadsNode = document.getElementById("git-downloads")
+    if (starsNode && Number.isFinite(stars)) {
+      starsNode.textContent = formatNumber(stars)
+      starsNode.setAttribute("data-counter", String(stars))
+    }
+    if (downloadsNode && Number.isFinite(downloads)) {
+      downloadsNode.textContent = formatNumber(downloads, "+")
+      downloadsNode.setAttribute("data-counter", String(downloads))
+    }
+  }
+
+  async function loadGithubStats() {
+    try {
+      const repoRes = await fetch("https://api.github.com/repos/" + GH_REPO, {
+        headers: { Accept: "application/vnd.github.v3+json" },
+      })
+      if (!repoRes.ok) throw new Error("repo status " + repoRes.status)
+      const repoData = await repoRes.json()
+      const stars = parseInt(repoData.stargazers_count, 10) || 0
+
+      const relRes = await fetch(
+        "https://api.github.com/repos/" + GH_REPO + "/releases?per_page=10",
+        { headers: { Accept: "application/vnd.github.v3+json" } },
+      )
+      let downloads = 0
+      if (relRes.ok) {
+        const relData = await relRes.json()
+        if (Array.isArray(relData)) {
+          downloads = relData.reduce((sum, release) => {
+            if (!release || !Array.isArray(release.assets)) return sum
+            return (
+              sum +
+              release.assets.reduce(
+                (assetSum, asset) => assetSum + (asset.download_count || 0),
+                0,
+              )
+            )
+          }, 0)
+        }
+      }
+
+      updateGithubStats(stars, downloads || 0)
+    } catch (error) {
+      console.warn("GitHub stats unavailable:", error)
     }
   }
 
@@ -523,6 +552,7 @@
     if (y) y.textContent = String(new Date().getFullYear())
 
     if (window.CleanWrapAnimations) window.CleanWrapAnimations.init()
+    loadGithubStats()
   }
 
   if (document.readyState === "loading")

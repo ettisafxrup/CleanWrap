@@ -1,36 +1,59 @@
 📁 Application Structure:
 
 .
-├── 📂 assets
-│ ├── cleanwrap.ico
-│ ├── installer_banner.bmp
-│ ├── installer_icon.bmp
-│ ├── logo.png
-│
-├── 📂 include
-│ ├── DuplicateDetector.hpp
-│ ├── FileClassifier.hpp
-│ ├── FileOrganizer.hpp
-│ ├── FileTypes.hpp
-│ ├── Notifications.hpp
-│ ├── Statistics.hpp
-│
-├── 📂 src
-│ ├── DuplicateDetector.cpp
-│ ├── FileClassifier.cpp
-│ ├── FileOrganizer.cpp
-│ ├── FileTypes.cpp
-│ ├── Statistics.cpp
-│
 ├── LICENSE
 ├── main.cpp
 ├── README.md
-├── release.sh
+├── CleanWrap.exe
+├── compile.sh
+│
+├── 📂 assets
+│   ├── cleanwrap.ico
+│   ├── icon.rc
+│   ├── installer_banner.bmp
+│   ├── installer_icon.bmp
+│   ├── logo.png
+│
+├── 📂 docs
+│   ├── CleanWrap_User_Manual_v1.0.txt
+│   ├── GREETING.txt
+│   ├── index.html
+│   ├── README.txt
+│   ├── THANK_YOU.txt
+│   ├── UNINSTALL.txt
+│   ├── User_Manual.txt
+│   ├── 📂 web
+│   │   ├── 📂 assets
+│   │   │   ├── dev.png
+│   │   │   ├── logo.png
+│   │   ├── 📂 css
+│   │   │   ├── animations.css
+│   │   │   ├── responsive.css
+│   │   │   ├── style.css
+│   │   ├── 📂 fonts
+│   │   │   ├── inter.css
+│   │   ├── 📂 js
+│   │   │   ├── animations.js
+│   │   │   ├── main.js
+│
+├── 📂 include
+│   ├── DuplicateDetector.hpp
+│   ├── FileClassifier.hpp
+│   ├── FileOrganizer.hpp
+│   ├── FileTypes.hpp
+│   ├── Notifications.hpp
+│   ├── Statistics.hpp
+│
+├── 📂 innosetup
+│   ├── cleanwrap_v1.0.iss
+│
 ├── 📂 release
-│ ├── 📂 CleanWrap_beta
-│ │ ├── CleanWrap_v1.0.exe
-│ ├── 📂 CleanWrap_v1.0
-│ │ ├── CleanWrap_v1.0_Setup.exe
-├── 📂 script
-│ ├── cleanwrap_v1.0.iss
+│   ├── CleanWrap_v1.0_Setup.exe
+│
+├── 📂 src
+│   ├── DuplicateDetector.cpp
+│   ├── FileClassifier.cpp
+│   ├── FileOrganizer.cpp
+│   ├── FileTypes.cpp
+│   ├── Statistics.cpp
 │

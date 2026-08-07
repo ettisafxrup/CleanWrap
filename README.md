@@ -1,4 +1,6 @@
-<center><img width="800" height="400" alt="WhatsApp Image 2026-08-06 at 22 19 22" src="https://github.com/user-attachments/assets/d111e073-c3c8-47ec-92e2-553ace4b329f" /></center>
+<center>
+<img width="800" height="400" alt="WhatsApp Image 2026-08-06 at 22 19 22" src="https://github.com/user-attachments/assets/d111e073-c3c8-47ec-92e2-553ace4b329f" />
+</center>
 
 # 📂 CleanWrap
 
@@ -159,6 +161,9 @@ CleanWrap/
 📁 Application Structure:
 
 .
+├── main.cpp
+├── release.sh (Compilation ShellScript)
+│
 ├── 📂 assets
 │   ├── cleanwrap.ico
 │   ├── installer_banner.bmp
@@ -180,16 +185,7 @@ CleanWrap/
 │   ├── FileTypes.cpp
 │   ├── Statistics.cpp
 │
-├── LICENSE
-├── main.cpp
-├── README.md
-├── release.sh
-├── 📂 release
-│   ├── 📂 CleanWrap_beta
-│   │   ├── CleanWrap_v1.0.exe
-│   ├── 📂 CleanWrap_v1.0
-│   │   ├── CleanWrap_v1.0_Setup.exe
-├── 📂 script
+├── 📂 innosetup
 │   ├── cleanwrap_v1.0.iss
 │
 

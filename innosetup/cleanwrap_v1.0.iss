@@ -40,7 +40,7 @@ SetupIconFile=D:\Codes\CleanWrap\assets\cleanwrap.ico
 
 LicenseFile=D:\Codes\CleanWrap\LICENSE
 
-InfoBeforeFile=D:\Codes\CleanWrap\docs\WELCOME_LICENSE_.txt
+InfoBeforeFile=D:\Codes\CleanWrap\docs\GREETING.txt
 InfoAfterFile=D:\Codes\CleanWrap\docs\THANK_YOU.txt
 
 WizardImageFile=D:\Codes\CleanWrap\assets\installer_banner.bmp
