@@ -8,7 +8,6 @@
 #define MyAppVersion "1.0"
 #define MyAppPublisher "XtendArena"
 #define MyAppURL "https://ettisafxrup.github.io/CleanWrap"
-#define MyAppExeName "CleanWrap_v1.0.exe"
 
 [Setup]
 AppId={{F82485E8-1EDB-4B19-8C10-D3A558513B5D}
@@ -22,7 +21,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 
-UninstallDisplayIcon={app}\{#MyAppExeName}
+UninstallDisplayIcon={app}\{#MyAppName}_v{#MyAppVersion}_Setup
 
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
@@ -34,15 +33,15 @@ WizardStyle=modern
 
 DisableProgramGroupPage=no
 
-OutputDir=D:\Codes\CleanWrap\release\CleanWrap_v1.0
-OutputBaseFilename=CleanWrap_v1.0_Setup
+OutputDir=D:\Codes\CleanWrap\release
+OutputBaseFilename={#MyAppName}_v{#MyAppVersion}_Setup
 
 SetupIconFile=D:\Codes\CleanWrap\assets\cleanwrap.ico
 
 LicenseFile=D:\Codes\CleanWrap\LICENSE
 
-InfoBeforeFile=D:\Codes\CleanWrap\release\CleanWrap_v1.0\WELCOME_LICENSE_.txt
-InfoAfterFile=D:\Codes\CleanWrap\release\CleanWrap_v1.0\THANK_YOU.txt
+InfoBeforeFile=D:\Codes\CleanWrap\script\attachments\WELCOME_LICENSE_.txt
+InfoAfterFile=D:\Codes\CleanWrap\script\attachments\THANK_YOU.txt
 
 WizardImageFile=D:\Codes\CleanWrap\assets\installer_banner.bmp
 WizardSmallImageFile=D:\Codes\CleanWrap\assets\installer_icon.bmp
@@ -72,11 +71,13 @@ Flags: checkedonce
 
 [Files]
 
-Source: "D:\Codes\CleanWrap\release\CleanWrap_v1.0\CleanWrap_v1.0.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Codes\CleanWrap\CleanWrap.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "D:\Codes\CleanWrap\release\CleanWrap_v1.0\README.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Codes\CleanWrap\script\attachments\CleanWrap_User_Manual_v1.0.txt"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "D:\Codes\CleanWrap\release\CleanWrap_v1.0\User_Manual.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Codes\CleanWrap\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "D:\Codes\CleanWrap\script\attachments\README.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 ;=============================================================
 ; Shortcuts
@@ -84,7 +85,7 @@ Source: "D:\Codes\CleanWrap\release\CleanWrap_v1.0\User_Manual.txt"; DestDir: "{
 
 [Icons]
 
-Name: "{group}\CleanWrap"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\CleanWrap"; Filename: "{app}\{#MyAppName}"
 
 Name: "{group}\README"; Filename: "{app}\README.txt"
 
@@ -109,13 +110,13 @@ Root: HKCR; \
 Subkey: "Directory\Background\shell\CleanWrap"; \
 ValueType: string; \
 ValueName: "Icon"; \
-ValueData: "{app}\{#MyAppExeName}"; \
+ValueData: "{app}\{#MyAppName}.exe"; \
 Tasks: contextmenu
 
 Root: HKCR; \
 Subkey: "Directory\Background\shell\CleanWrap\command"; \
 ValueType: string; \
-ValueData: """{app}\{#MyAppExeName}"" ""%V"""; \
+ValueData: """{app}\{#MyAppName}.exe"" ""%V"""; \
 Tasks: contextmenu; \
 Flags: uninsdeletekey
 
@@ -127,16 +128,16 @@ Root: HKLM; \
 Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
 ValueType: string; \
 ValueName: "CleanWrap"; \
-ValueData: """{app}\{#MyAppExeName}"""; \
+ValueData: """{app}\{#MyAppName}"""; \
 Tasks: startup; \
 Flags: uninsdeletevalue
 
 ;=============================================================
-; Run After Installation
+; Run After Installation (I DONT NEED IT HERE)
 ;=============================================================
 
 [Run]
 
-Filename: "{app}\{#MyAppExeName}"; \
-Description: "Launch CleanWrap"; \
-Flags: nowait postinstall skipifsilent
+; Filename: "{app}\{#MyAppName}_v{#MyAppVersion}_Setup"; \
+; Description: "Launch CleanWrap"; \
+; Flags: nowait postinstall skipifsilent

@@ -1,0 +1,60 @@
+/* ============================================================
+   CleanWrap — Responsive rules
+   ============================================================ */
+
+/* Laptop */
+@media (max-width: 1180px) {
+  .container { width: min(var(--maxw), 100% - 40px); }
+  .section { padding: 92px 0; }
+  .nav-links a { padding: 8px 9px; font-size: 14px; }
+}
+
+/* Small laptop / large tablet */
+@media (max-width: 1024px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: grid; }
+  .about-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: repeat(2, 1fr); gap: 26px; }
+  .timeline::before { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .dev { grid-template-columns: 1fr; text-align: center; }
+  .socials { justify-content: center; }
+  .folder-float.f2, .folder-float.f4 { display: none; }
+}
+
+/* Tablet */
+@media (max-width: 860px) {
+  .section { padding: 76px 0; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .ba { grid-template-columns: 1fr; }
+  .download-panel { padding: 44px 24px; }
+  .hero { padding-top: calc(var(--nav-h) + 60px); }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  :root { --nav-h: 64px; }
+  .container { width: min(var(--maxw), 100% - 32px); }
+  .section { padding: 62px 0; }
+  .section-head { margin-bottom: 38px; }
+  .hero h1 { font-size: clamp(44px, 15vw, 72px); }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn { width: 100%; }
+  .floating-folders { display: none; }
+  .timeline { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+  .filetypes { grid-template-columns: repeat(2, 1fr); }
+  .shots { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; }
+  .dl-buttons .btn { width: 100%; }
+  .win-body, .code-body { font-size: 12px; }
+  .dev { padding: 26px; }
+  #toTop { right: 16px; bottom: 16px; }
+  .brand span { font-size: 16px; }
+}
+
+@media (max-width: 380px) {
+  .filetypes { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
