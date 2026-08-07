@@ -1,0 +1,57 @@
+CleanWrap User Manual
+
+Version 1.0 Author: Ettisaf Rup
+
+Welcome to CleanWrap.
+
+CleanWrap is a lightweight Windows utility that automatically organizes
+messy folders into clean, categorized directories. It supports
+organizing the Downloads folder, right-click Explorer integration,
+duplicate detection, and cleanup logging.
+
+INSTALLATION
+
+1.  Run the installer.
+2.  Follow the setup wizard.
+3.  Optionally enable: • Explorer Context Menu • Organize Downloads at
+    Windows Startup
+4.  Finish installation.
+
+USING CLEANWRAP
+
+• Run CleanWrap to organize your Downloads folder. • Or right-click
+inside any folder and choose: “Organize with CleanWrap”
+
+SUPPORTED CATEGORIES
+
+Images PDFs Videos Audio Code Documents Archives Executables and
+Installers Others
+
+Duplicate folders are created only when duplicates exist.
+
+DUPLICATE DETECTION
+
+CleanWrap uses 64-bit FNV-1a hashing and Windows filename pattern
+recognition (e.g. “(1)”, “- Copy”) to identify duplicate files.
+Originals remain in the main category while duplicate copies are moved
+to dedicated duplicate folders.
+
+LOGGING
+
+Each execution appends to _CleanWrap.log.
+
+The report includes: • Date & Time • Files handled • Category statistics
+• Duplicate count • Error count
+
+PRIVACY
+
+All processing happens locally on your computer. CleanWrap never uploads
+or transmits your files.
+
+UNINSTALLATION
+
+Use Windows Apps & Features or the included uninstaller.
+
+Thank you for using CleanWrap.
+
+Developed by Ettisaf Rup
