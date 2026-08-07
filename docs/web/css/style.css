@@ -1395,7 +1395,7 @@ p {
   margin-inline: auto;
   box-shadow: var(--glow);
 
-  background-image: url("../../../assets/dev.png");
+  background-image: url("../assets/dev.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
