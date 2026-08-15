@@ -15,9 +15,9 @@ readonly ICON_RC="assets/icon.rc"
 readonly ICON_OBJ="icon.o"
 
 readonly APP_NAME="CleanWrap"
-readonly VERSION = "1.0.1"
-readonly OUTPUT_EXE= {AppName} + "_v" + {AppVersion}
-readonly INNO_SCRIPT="innosetup/cleanwrap_v1.0.1.iss"
+readonly VERSION="1.0.1"
+readonly OUTPUT_EXE="${APP_NAME}_v${VERSION}"
+readonly INNO_SCRIPT="innosetup/cleanwrap_v${VERSION}.iss"
 INSTALLER_MODE=false
 
 print() {
