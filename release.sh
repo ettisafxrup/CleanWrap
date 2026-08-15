@@ -1,0 +1,9 @@
+readonly VERSION="v1.0.1"
+
+# IF NOT PUSHED YET, PUSH THE FILE TO THE GITHUB REPO
+git add .
+git commit -m "release: prepare release $VERSION"
+git push origin main
+
+git tag "$VERSION"
+git push origin "$VERSION" 

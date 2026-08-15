@@ -13,8 +13,11 @@ IFS=$'\n\t'
 readonly BUILD_DIR="release"
 readonly ICON_RC="assets/icon.rc"
 readonly ICON_OBJ="icon.o"
-readonly OUTPUT_EXE="CleanWrap.exe"
-readonly INNO_SCRIPT="innosetup/cleanwrap_v1.0.iss"
+
+readonly APP_NAME="CleanWrap"
+readonly VERSION = "1.0.1"
+readonly OUTPUT_EXE= {AppName} + "_v" + {AppVersion}
+readonly INNO_SCRIPT="innosetup/cleanwrap_v1.0.1.iss"
 INSTALLER_MODE=false
 
 print() {

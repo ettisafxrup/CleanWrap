@@ -5,7 +5,7 @@
 ; ==========================================================
 
 #define MyAppName "CleanWrap"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "XtendArena"
 #define MyAppURL "https://ettisafxrup.github.io/CleanWrap"
 
