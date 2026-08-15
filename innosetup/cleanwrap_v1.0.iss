@@ -87,9 +87,9 @@ Source: "D:\Codes\CleanWrap\docs\README.txt"; DestDir: "{app}"; Flags: ignorever
 
 Name: "{group}\CleanWrap"; Filename: "{app}\{#MyAppName}"
 
-Name: "{group}\README"; Filename: "{app}\README.txt"
+Name: "{group}\README"; Filename: "{app}\Userfiles\README.txt"
 
-Name: "{group}\User Manual"; Filename: "{app}\CleanWrap_User_Manual_v1.0.txt"
+Name: "{group}\User Manual"; Filename: "{app}\Userfiles\CleanWrap_User_Manual_v1.0.txt"
 
 Name: "{group}\Uninstall CleanWrap"; Filename: "{uninstallexe}"
 

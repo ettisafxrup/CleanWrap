@@ -56,7 +56,7 @@ printf 'Processing icon resource: %s\n' "$ICON_RC"
 windres "$ICON_RC" -O coff -o "$ICON_OBJ"
 printf 'Icon resource compiled to %s\n\n' "$ICON_OBJ"
 printf 'Linking application executable...\n'
-g++ -O2 -std=c++20 -Wall -Wextra -Iinclude main.cpp src/*.cpp "$ICON_OBJ" -o "$OUTPUT_EXE" -mwindows -static-libgcc -static-libstdc++
+g++ -O2 -std=c++20 -Wall -Wextra -Iinclude main.cpp src/*.cpp "$ICON_OBJ" -o "$OUTPUT_EXE" -mwindows -static -static-libgcc -static-libstdc++
 
 rm -f "$ICON_OBJ"
 printf '\nCompilation completed successfully: %s\n' "$OUTPUT_EXE"
