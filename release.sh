@@ -1,6 +1,12 @@
 readonly VERSION="v1.0.1"
 
-./compile.sh
+if [ $# -eq 1 ]; then
+    ./compile.sh 1
+else
+    ./compile.sh 
+fi
+
+
 
 # IF NOT PUSHED YET, PUSH THE FILE TO THE GITHUB REPO
 git add .
