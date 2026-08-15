@@ -186,7 +186,7 @@ CleanWrap/
 │   ├── Statistics.cpp
 │
 ├── 📂 innosetup
-│   ├── cleanwrap_v1.0.iss
+│   ├── cleanwrap_inno.iss
 │
 
 ```
@@ -267,7 +267,7 @@ It helps others discover the project and motivates future improvements.
 
 and if anyone wills to donate, you can bring me to a tong.
 
-[![Download Latest Release](https://img.shields.io/badge/Download-CleanWrap%20v1.0-success?style=for-the-badge)](https://github.com/ettisafxrup/CleanWrap/releases/latest)
+[![Download Latest Release](https://img.shields.io/badge/Download-CleanWrap-success?style=for-the-badge)](https://github.com/ettisafxrup/CleanWrap/releases/latest)
 
 ---
 
