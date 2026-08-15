@@ -40,8 +40,8 @@ SetupIconFile=D:\Codes\CleanWrap\assets\cleanwrap.ico
 
 LicenseFile=D:\Codes\CleanWrap\LICENSE
 
-InfoBeforeFile=D:\Codes\CleanWrap\docs\GREETING.txt
-InfoAfterFile=D:\Codes\CleanWrap\docs\THANK_YOU.txt
+InfoBeforeFile=D:\Codes\CleanWrap\docs\.txt\GREETING.txt
+InfoAfterFile=D:\Codes\CleanWrap\docs\.txt\THANK_YOU.txt
 
 WizardImageFile=D:\Codes\CleanWrap\assets\installer_banner.bmp
 WizardSmallImageFile=D:\Codes\CleanWrap\assets\installer_icon.bmp
@@ -73,11 +73,11 @@ Flags: checkedonce
 
 Source: "D:\Codes\CleanWrap\CleanWrap.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "D:\Codes\CleanWrap\docs\CleanWrap_User_Manual_v1.0.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Codes\CleanWrap\docs\.txt\CleanWrap_User_Manual_v1.0.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "D:\Codes\CleanWrap\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "D:\Codes\CleanWrap\docs\README.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Codes\CleanWrap\docs\.txt\README.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 ;=============================================================
 ; Shortcuts
