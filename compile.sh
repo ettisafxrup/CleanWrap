@@ -16,7 +16,7 @@ readonly ICON_OBJ="icon.o"
 
 readonly APP_NAME="CleanWrap"
 readonly VERSION="1.0.1"
-readonly OUTPUT_EXE="${APP_NAME}_v${VERSION}"
+readonly OUTPUT_EXE="${APP_NAME}.exe"
 readonly INNO_SCRIPT="innosetup/cleanwrap_v${VERSION}.iss"
 INSTALLER_MODE=false
 
