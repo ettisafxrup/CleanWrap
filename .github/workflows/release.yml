@@ -99,7 +99,6 @@ jobs:
           HASH=$(sha256sum "${{ steps.installer.outputs.installer }}" | awk '{print $1}')
 
           echo "sha256=$HASH" >> "$GITHUB_OUTPUT"
-
           echo "SHA-256:"
           echo "$HASH"
 
