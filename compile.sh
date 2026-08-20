@@ -76,7 +76,7 @@ if [ "$INSTALLER_MODE" = true ]; then
     # make dir if no exists, skip if exists
     mkdir -p "$BUILD_DIR"
     printf 'Running Inno Setup Compiler on %s\n' "$INNO_SCRIPT"
-    ISCC "/DCleanWrapVersion=$VERSION" "$INNO_SCRIPT"
+    MSYS_NO_PATHCONV=1 ISCC "/DCleanWrapVersion=$VERSION" "$INNO_SCRIPT"
     printf 'Installer build completed.\n'
 fi
 
