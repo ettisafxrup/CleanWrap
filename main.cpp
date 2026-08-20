@@ -2,10 +2,13 @@
 #include <filesystem>
 #include <iostream>
 #include "include/FileOrganizer.hpp"
+#include "include/UpdateChecker.hpp"
 namespace fs = std::filesystem;
 
 int main(int argc, char *argv[])
 {
+    UpdateChecker::checkForUpdates();
+
     const char *userProfile = std::getenv("USERPROFILE");
     if (!userProfile)
     {

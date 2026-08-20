@@ -1,4 +1,5 @@
-readonly VERSION="v1.0.1"
+readonly VERSION_HEADER="include/Version.hpp"
+readonly VERSION="v$(sed -n 's/^#define CLEANWRAP_VERSION "\(.*\)"/\1/p' "$VERSION_HEADER")"
 
 if [ $# -eq 1 ]; then
     ./compile.sh 1

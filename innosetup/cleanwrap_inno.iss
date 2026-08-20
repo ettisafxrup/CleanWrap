@@ -4,24 +4,26 @@
 ; Author: Ettisaf Rup
 ; ==========================================================
 
-#define MyAppName "CleanWrap"
-#define MyAppVersion "1.0.1"
-#define MyAppPublisher "XtendArena"
-#define MyAppURL "https://ettisafxrup.github.io/CleanWrap"
+#define CleanWrapName "CleanWrap"
+#ifndef CleanWrapVersion
+#define CleanWrapVersion "0.0.0"
+#endif
+#define CleanWrapPublisher "XtendArena"
+#define CleanWrapURL "https://ettisafxrup.github.io/CleanWrap"
 
 [Setup]
 AppId={{F82485E8-1EDB-4B19-8C10-D3A558513B5D}
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
+AppName={#CleanWrapName}
+AppVersion={#CleanWrapVersion}
+AppPublisher={#CleanWrapPublisher}
+AppPublisherURL={#CleanWrapURL}
+AppSupportURL={#CleanWrapURL}
+AppUpdatesURL={#CleanWrapURL}
 
-DefaultDirName={autopf}\{#MyAppName}
-DefaultGroupName={#MyAppName}
+DefaultDirName={autopf}\{#CleanWrapName}
+DefaultGroupName={#CleanWrapName}
 
-UninstallDisplayIcon={app}\{#MyAppName}_v{#MyAppVersion}_Setup
+UninstallDisplayIcon={app}\{#CleanWrapName}_v{#CleanWrapVersion}_Setup
 
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
@@ -34,7 +36,7 @@ WizardStyle=modern
 DisableProgramGroupPage=no
 
 OutputDir=D:\Codes\CleanWrap\release
-OutputBaseFilename={#MyAppName}_v{#MyAppVersion}_Setup
+OutputBaseFilename={#CleanWrapName}_v{#CleanWrapVersion}_Setup
 
 SetupIconFile=D:\Codes\CleanWrap\assets\cleanwrap.ico
 
@@ -85,7 +87,7 @@ Source: "D:\Codes\CleanWrap\docs\.txt\README.txt"; DestDir: "{app}"; Flags: igno
 
 [Icons]
 
-Name: "{group}\CleanWrap"; Filename: "{app}\{#MyAppName}"
+Name: "{group}\CleanWrap"; Filename: "{app}\{#CleanWrapName}"
 
 Name: "{group}\README"; Filename: "{app}\Userfiles\README.txt"
 
@@ -110,13 +112,13 @@ Root: HKCR; \
 Subkey: "Directory\Background\shell\CleanWrap"; \
 ValueType: string; \
 ValueName: "Icon"; \
-ValueData: "{app}\{#MyAppName}.exe"; \
+ValueData: "{app}\{#CleanWrapName}.exe"; \
 Tasks: contextmenu
 
 Root: HKCR; \
 Subkey: "Directory\Background\shell\CleanWrap\command"; \
 ValueType: string; \
-ValueData: """{app}\{#MyAppName}.exe"" ""%V"""; \
+ValueData: """{app}\{#CleanWrapName}.exe"" ""%V"""; \
 Tasks: contextmenu; \
 Flags: uninsdeletekey
 
@@ -128,7 +130,7 @@ Root: HKLM; \
 Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
 ValueType: string; \
 ValueName: "CleanWrap"; \
-ValueData: """{app}\{#MyAppName}"""; \
+ValueData: """{app}\{#CleanWrapName}"""; \
 Tasks: startup; \
 Flags: uninsdeletevalue
 
@@ -138,6 +140,6 @@ Flags: uninsdeletevalue
 
 [Run]
 
-; Filename: "{app}\{#MyAppName}_v{#MyAppVersion}_Setup"; \
+; Filename: "{app}\{#CleanWrapName}_v{#CleanWrapVersion}_Setup"; \
 ; Description: "Launch CleanWrap"; \
 ; Flags: nowait postinstall skipifsilent

@@ -13,8 +13,6 @@ void Statistics::addFile(const std::string &c) { categoryCounts[c]++; }
 void Statistics::addDuplicate() { duplicateCount++; }
 void Statistics::addError() { errorCount++; }
 
-// I want this Statisis to print the summery to a .log text file in the downloads directory with mentioning the date and time while the program ran. With proper details of what the program did. Make sure the log doesn't override, it appends
-
 void Statistics::print(const fs::path &targetFolderPath, const std::set<std::string> &categories) const
 {
         // Log Table Width

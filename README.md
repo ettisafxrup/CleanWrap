@@ -85,17 +85,25 @@ Downloads/
 
 ## 🧠 Duplicate Detection
 
-CleanWrap uses a two-stage duplicate detection system.
+CleanWrap uses a staged duplicate detection system.
 
-### 1. Hash-Based Detection
+### 1. File Size Filtering
 
-Every file is hashed using a fast 64-bit FNV-1a hashing algorithm.
+Files are first grouped by their size. Files with different sizes cannot be duplicates, so no content hashing is needed for them.
+
+### 2. Partial Hash Filtering
+
+Files with the same size are partially hashed using their first and last 64 KiB. This quickly filters out files that only happen to have the same size.
+
+### 3. Full Hash Detection
+
+Only files that pass the size and partial-hash checks are hashed completely using the fast 64-bit FNV-1a hashing algorithm.
 
 If another file with the exact same content already exists, CleanWrap identifies it as a duplicate.
 
 ---
 
-### 2. Windows Copy Pattern Recognition
+### 4. Windows Copy Pattern Recognition
 
 CleanWrap also recognizes common Windows duplicate filename patterns, including:
 
@@ -236,18 +244,6 @@ For release builds:
 - Easier Installation with Installer ✅
 - One-Click Tide Directory Feature ✅
 - Better Logging ✅
-
----
-
-## Future Improvements
-
-- Drag & Drop Support
-- Automatic Update Checker
-- Dark Mode GUI
-- Custom Category Rules
-- Configuration File (.json)
-- File Preview
-- Localization
 
 ---
 

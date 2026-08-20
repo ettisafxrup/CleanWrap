@@ -4,7 +4,7 @@
 # Thank you for your time in CleanWrap!
 #
 # Ettisaf Rup
-# Software Lead, XtendArena.
+# Software Crew, XtendArena.
 # =========================================
 
 set -euo pipefail
@@ -15,10 +15,17 @@ readonly ICON_RC="assets/icon.rc"
 readonly ICON_OBJ="icon.o"
 
 readonly APP_NAME="CleanWrap"
-readonly VERSION="1.0.1"
+readonly VERSION_HEADER="include/Version.hpp"
 readonly OUTPUT_EXE="${APP_NAME}.exe"
 readonly INNO_SCRIPT="innosetup/cleanwrap_inno.iss"
+
 INSTALLER_MODE=false
+
+VERSION=$(sed -n 's/^#define CLEANWRAP_VERSION "\(.*\)"/\1/p' "$VERSION_HEADER")
+if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    printf 'Error: invalid version in %s.\n' "$VERSION_HEADER"
+    exit 1
+fi
 
 print() {
     printf '\n%s\n' "============================================"
@@ -59,7 +66,7 @@ printf 'Processing icon resource: %s\n' "$ICON_RC"
 windres "$ICON_RC" -O coff -o "$ICON_OBJ"
 printf 'Icon resource compiled to %s\n\n' "$ICON_OBJ"
 printf 'Linking application executable...\n'
-g++ -O2 -std=c++20 -Wall -Wextra -Iinclude main.cpp src/*.cpp "$ICON_OBJ" -o "$OUTPUT_EXE" -mwindows -static -static-libgcc -static-libstdc++
+g++ -O2 -std=c++20 -Wall -Wextra -Iinclude main.cpp src/*.cpp "$ICON_OBJ" -o "$OUTPUT_EXE" -mwindows -static -static-libgcc -static-libstdc++ -lwinhttp
 
 rm -f "$ICON_OBJ"
 printf '\nCompilation completed successfully: %s\n' "$OUTPUT_EXE"
@@ -69,7 +76,7 @@ if [ "$INSTALLER_MODE" = true ]; then
     # make dir if no exists, skip if exists
     mkdir -p "$BUILD_DIR"
     printf 'Running Inno Setup Compiler on %s\n' "$INNO_SCRIPT"
-    ISCC "$INNO_SCRIPT"
+    ISCC "/DCleanWrapVersion=$VERSION" "$INNO_SCRIPT"
     printf 'Installer build completed.\n'
 fi
 
