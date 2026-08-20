@@ -41,7 +41,7 @@ The application is designed to run once, organize everything in seconds, generat
 
 ---
 
-After Installing CleanWrap, your **Downloads** Folder will look never cleaner than this-
+After installing CleanWrap, your **Downloads** folder will look cleaner than ever:
 
 ## 📂 Downloads Folder Structure
 
@@ -116,7 +116,7 @@ Assignment - Copy (3).docx
 
 These filename patterns are checked alongside hash matching before classifying them as duplicates.
 
-### 3. Timestamp-Aware Duplicate Handling
+### 5. Timestamp-Aware Duplicate Handling
 
 When identical files are detected, CleanWrap intelligently keeps the original file in the main category folder while moving Windows-generated duplicate copies (such as `(1)` or `- Copy`) into the corresponding duplicate folder.
 
@@ -166,36 +166,62 @@ Logs are appended instead of overwritten, preserving the history of every cleanu
 
 ```text
 CleanWrap/
-📁 Application Structure:
-
 .
-├── main.cpp
-├── release.sh (Compilation ShellScript)
-│
-├── 📂 assets
+├── assets/
 │   ├── cleanwrap.ico
+│   ├── icon.rc
 │   ├── installer_banner.bmp
 │   ├── installer_icon.bmp
-│   ├── logo.png
-│
-├── 📂 include
+│   └── logo.png
+├── docs/
+│   ├── .txt/
+│   │   ├── CleanWrap_User_Manual_v1.0.txt
+│   │   ├── GREETING.txt
+│   │   ├── README.txt
+│   │   ├── THANK_YOU.txt
+│   │   ├── UNINSTALL.txt
+│   │   └── User_Manual.txt
+│   ├── index.html
+│   ├── release_notes/
+│   │   ├── note_v1.0.0.md
+│   │   ├── note_v1.0.1.md
+│   │   └── note_v1.2.0.md
+│   └── web/
+│       ├── assets/
+│       ├── css/
+│       │   ├── animations.css
+│       │   ├── responsive.css
+│       │   └── style.css
+│       ├── fonts/
+│       │   └── inter.css
+│       └── js/
+│           ├── animations.js
+│           └── main.js
+├── include/
 │   ├── DuplicateDetector.hpp
 │   ├── FileClassifier.hpp
 │   ├── FileOrganizer.hpp
 │   ├── FileTypes.hpp
 │   ├── Notifications.hpp
 │   ├── Statistics.hpp
-│
-├── 📂 src
+│   ├── UpdateChecker.hpp
+│   └── Version.hpp
+├── innosetup/
+│   └── cleanwrap_inno.iss
+├── release/
+│   ├── CleanWrap_v1.0.0_Setup.exe
+│   ├── CleanWrap_v1.0.1_Setup.exe
+│   └── CleanWrap_v1.2.0_Setup.exe
+├── src/
 │   ├── DuplicateDetector.cpp
 │   ├── FileClassifier.cpp
 │   ├── FileOrganizer.cpp
 │   ├── FileTypes.cpp
 │   ├── Statistics.cpp
-│
-├── 📂 innosetup
-│   ├── cleanwrap_inno.iss
-│
+│   └── UpdateChecker.cpp
+├── main.cpp
+├── release.sh
+└── compile.sh
 
 ```
 
@@ -229,7 +255,13 @@ src/*.cpp ^
 -o CleanWrap.exe
 ```
 
-For release builds:
+For Release builds:
+
+```bash
+./release.sh
+```
+
+For Compiling builds:
 
 ```bash
 ./release.sh
