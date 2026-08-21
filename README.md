@@ -41,7 +41,7 @@ The application is designed to run once, organize everything in seconds, generat
 
 ---
 
-After installing CleanWrap, your **Downloads** folder will look cleaner than ever:
+After installing CleanWrap, your **Downloads** folder will look cleaner than ever!
 
 ## 📂 Downloads Folder Structure
 
