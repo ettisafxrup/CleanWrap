@@ -98,7 +98,7 @@
     {
       i: I.tag,
       t: "Category detection",
-      d: "Nine built-in categories cover hundreds of extensions, with signature checks for mislabeled files.",
+      d: "20 built-in categories cover 283 supported extensions, with signature checks for mislabeled files.",
     },
     {
       i: I.shield,
@@ -131,16 +131,79 @@
     {
       i: I.image,
       t: "Images",
-      e: ".jpg .png .gif .webp .heic .svg .bmp .tiff",
+      e: ".jpg .png .gif .webp .svg .heic",
     },
-    { i: I.video, t: "Videos", e: ".mp4 .mkv .mov .avi .webm .wmv .flv" },
-    { i: I.music, t: "Audio", e: ".mp3 .wav .flac .aac .m4a .ogg" },
     { i: I.pdf, t: "PDFs", e: ".pdf" },
-    { i: I.doc, t: "Documents", e: ".docx .xlsx .pptx .txt .md .csv .odt" },
-    { i: I.exe, t: "Executables", e: ".exe .msi .msix .bat .cmd" },
-    { i: I.archive, t: "Archives", e: ".zip .rar .7z .tar .gz .iso" },
-    { i: I.code, t: "Code files", e: ".cpp .h .py .js .ts .json .html .css" },
-    { i: I.other, t: "Others", e: "everything unrecognised, kept safe" },
+    {
+      i: I.video,
+      t: "Videos",
+      e: ".mp4 .mkv .avi .mov .webm .wmv",
+    },
+    {
+      i: I.music,
+      t: "Audio",
+      e: ".mp3 .wav .flac .aac .m4a .ogg",
+    },
+    {
+      i: I.code,
+      t: "Code",
+      e: ".c .cpp .h .py .java .js .ts",
+    },
+    {
+      i: I.exe,
+      t: "Executables and Installers",
+      e: ".exe .msi .msix .appx .dll .sys",
+    },
+    {
+      i: I.doc,
+      t: "Documents",
+      e: ".doc .docx .odt .rtf .txt .md",
+    },
+    {
+      i: I.doc,
+      t: "Presentations",
+      e: ".ppt .pptx .pps .ppsx .odp .key",
+    },
+    {
+      i: I.doc,
+      t: "Spreadsheets",
+      e: ".xls .xlsx .xlsm .csv .tsv .ods",
+    },
+    {
+      i: I.doc,
+      t: "Ebooks",
+      e: ".epub .mobi .azw .azw3 .fb2 .djvu",
+    },
+    {
+      i: I.archive,
+      t: "Archives and Zips",
+      e: ".zip .rar .7z .tar .gz .iso",
+    },
+    { i: I.doc, t: "Fonts", e: ".ttf .otf .woff .woff2 .eot" },
+    {
+      i: I.image,
+      t: "Design",
+      e: ".ai .eps .indd .fig .blend .obj",
+    },
+    {
+      i: I.grid,
+      t: "CAD",
+      e: ".dwg .dxf .sldprt .sldasm .ipt .iam",
+    },
+    {
+      i: I.grid,
+      t: "Data",
+      e: ".db .sqlite .sqlite3 .mdb .accdb .parquet",
+    },
+    { i: I.video, t: "Subtitles", e: ".srt .ass .ssa .sub .vtt .sbv" },
+    {
+      i: I.layers,
+      t: "Virtual Machines",
+      e: ".vdi .vmdk .vhd .vhdx .ova .ovf",
+    },
+    { i: I.shield, t: "Certificates", e: ".cer .crt .pem .der .p12 .pfx" },
+    { i: I.other, t: "Torrents", e: ".torrent" },
+    { i: I.other, t: "Others", e: "unknown or extensionless files, kept safe" },
   ]
 
   const SHOTS = [
@@ -154,7 +217,7 @@
     },
     {
       t: "Downloads after",
-      d: "The same folder after a single run — nine clean category folders and a report file.",
+      d: "The same folder after a single run — clean category folders and a report file.",
     },
     {
       t: "Duplicate folder",
@@ -308,6 +371,12 @@
 
   /* ---------------- GitHub stats ---------------- */
   const GH_REPO = "ettisafxrup/CleanWrap"
+  const GH_STATS_CACHE_KEY = "cleanwrap.github-stats"
+  const GH_BADGE_URLS = {
+    stars: "https://img.shields.io/github/stars/" + GH_REPO + ".json",
+    downloads:
+      "https://img.shields.io/github/downloads/" + GH_REPO + "/total.json",
+  }
 
   function formatNumber(value, suffix = "") {
     return value.toLocaleString() + suffix
@@ -326,39 +395,83 @@
     }
   }
 
+  function parseBadgeValue(value) {
+    const match = String(value)
+      .trim()
+      .toLowerCase()
+      .match(/^([\d,.]+)\s*([km]?)$/)
+    if (!match) return NaN
+    const number = Number(match[1].replace(/,/g, ""))
+    const multiplier = match[2] === "m" ? 1000000 : match[2] === "k" ? 1000 : 1
+    return Number.isFinite(number) ? Math.round(number * multiplier) : NaN
+  }
+
+  async function fetchJson(url) {
+    const response = await fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    })
+    if (!response.ok) throw new Error("request status " + response.status)
+    return response.json()
+  }
+
+  async function fetchBadgeValue(url) {
+    const badge = await fetchJson(url)
+    const value = parseBadgeValue(badge && (badge.message || badge.value))
+    if (!Number.isFinite(value)) throw new Error("invalid badge value")
+    return value
+  }
+
   async function loadGithubStats() {
+    let cached = {}
     try {
-      const repoRes = await fetch("https://api.github.com/repos/" + GH_REPO, {
-        headers: { Accept: "application/vnd.github.v3+json" },
-      })
-      if (!repoRes.ok) throw new Error("repo status " + repoRes.status)
-      const repoData = await repoRes.json()
-      const stars = parseInt(repoData.stargazers_count, 10) || 0
-
-      const relRes = await fetch(
-        "https://api.github.com/repos/" + GH_REPO + "/releases?per_page=10",
-        { headers: { Accept: "application/vnd.github.v3+json" } },
-      )
-      let downloads = 0
-      if (relRes.ok) {
-        const relData = await relRes.json()
-        if (Array.isArray(relData)) {
-          downloads = relData.reduce((sum, release) => {
-            if (!release || !Array.isArray(release.assets)) return sum
-            return (
-              sum +
-              release.assets.reduce(
-                (assetSum, asset) => assetSum + (asset.download_count || 0),
-                0,
-              )
-            )
-          }, 0)
-        }
-      }
-
-      updateGithubStats(stars, downloads || 0)
+      cached = JSON.parse(localStorage.getItem(GH_STATS_CACHE_KEY) || "{}")
     } catch (error) {
-      console.warn("GitHub stats unavailable:", error)
+      console.warn("GitHub stats cache unavailable:", error)
+    }
+
+    updateGithubStats(cached.stars, cached.downloads)
+
+    const fetchStars = fetchJson("https://api.github.com/repos/" + GH_REPO)
+      .then((data) => {
+        const stars = Number(data.stargazers_count)
+        if (!Number.isFinite(stars)) throw new Error("invalid star count")
+        return stars
+      })
+      .catch(() => fetchBadgeValue(GH_BADGE_URLS.stars))
+      .catch(() => NaN)
+    const fetchDownloads = fetchJson(
+      "https://api.github.com/repos/" + GH_REPO + "/releases?per_page=100",
+    )
+      .then((releases) =>
+        Array.isArray(releases)
+          ? releases.reduce(
+              (sum, release) =>
+                sum +
+                (Array.isArray(release && release.assets)
+                  ? release.assets.reduce(
+                      (assetSum, asset) =>
+                        assetSum + Number(asset.download_count || 0),
+                      0,
+                    )
+                  : 0),
+              0,
+            )
+          : NaN,
+      )
+      .catch(() => fetchBadgeValue(GH_BADGE_URLS.downloads))
+      .catch(() => NaN)
+
+    const [stars, downloads] = await Promise.all([fetchStars, fetchDownloads])
+    const stats = {
+      stars: Number.isFinite(stars) ? stars : cached.stars,
+      downloads: Number.isFinite(downloads) ? downloads : cached.downloads,
+    }
+    updateGithubStats(stats.stars, stats.downloads)
+    try {
+      localStorage.setItem(GH_STATS_CACHE_KEY, JSON.stringify(stats))
+    } catch (error) {
+      console.warn("GitHub stats cache unavailable:", error)
     }
   }
 
