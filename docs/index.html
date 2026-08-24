@@ -1,0 +1,1837 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleanWrap — Smart File Organization for Windows</title>
+    <meta
+      name="description"
+      content="CleanWrap is designed to stay lightweight, fast, and dependency-free while keeping your directories clean with minimal user interaction. It's a native Windows utility that automatically sorts your Downloads folder with intelligent file categorization, hash-based duplicate detection and cleanup reports."
+    />
+    <meta
+      name="keywords"
+      content="CleanWrap, downloads organizer, file organizer Windows, duplicate file finder, hash duplicate detection, C++20 utility, cleanup tool, Windows 11 file manager, folder automation"
+    />
+    <meta name="author" content="Ettisaf Rup" />
+    <meta name="theme-color" content="#0F172A" />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CleanWrap" />
+    <meta
+      property="og:title"
+      content="CleanWrap — Smart File Organization for Windows"
+    />
+    <meta
+      property="og:description"
+      content="CleanWrap is a fast, lightweight and modular Downloads folder organizer written in Modern C++20. Free, native, and built in modern C++20."
+    />
+    <meta property="og:url" content="./index.html" />
+    <meta property="og:image" content="web/assets/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="CleanWrap — Automatically Organize Your Downloads Folder"
+    />
+    <meta
+      name="twitter:description"
+      content="CleanWrap is a fast, lightweight and modular Downloads folder organizer written in Modern C++20. Free, native, and built in modern C++20."
+    />
+    <meta name="twitter:image" content="web/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="web/fonts/inter.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="web/css/style.css" />
+    <link rel="stylesheet" href="web/css/animations.css" />
+    <link rel="stylesheet" href="web/css/responsive.css" />
+    <link rel="icon" type="image/x-icon" href="web/assets/logo.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "CleanWrap",
+        "operatingSystem": "Windows 10, Windows 11",
+        "applicationCategory": "UtilitiesApplication",
+        "softwareVersion": "1.3.0",
+        "license": "https://opensource.org/licenses/MIT",
+        "description": "Automatically organize your Downloads folder with intelligent file categorization and smart duplicate detection.",
+        "author": { "@type": "Person", "name": "Ettisaf Rup" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- ===================== LOADING SCREEN ===================== -->
+    <div id="loader" class="hidden">
+      <div class="loader-inner">
+        <div class="loader-mark"></div>
+        <div class="loader-bar"><span></span></div>
+        <p>Loading CleanWrap</p>
+      </div>
+    </div>
+
+    <!-- ===================== SCROLL PROGRESS ===================== -->
+    <div id="progress" style="width: 0%"></div>
+
+    <!-- ===================== BACKGROUND DECOR ===================== -->
+    <div class="blobs" aria-hidden="true">
+      <div
+        class="blob b1 parallax"
+        data-depth="18"
+        style="transform: translate3d(6.95px, -10.61px, 0px)"
+      ></div>
+      <div
+        class="blob b2 parallax"
+        data-depth="-24"
+        style="transform: translate3d(-9.26px, 14.15px, 0px)"
+      ></div>
+      <div
+        class="blob b3 parallax"
+        data-depth="14"
+        style="transform: translate3d(5.4px, -8.25px, 0px)"
+      ></div>
+    </div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <canvas
+      id="particles"
+      aria-hidden="true"
+      width="1280"
+      height="604"
+    ></canvas>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <header class="nav" id="nav">
+      <div class="container">
+        <a class="brand" href="#home">
+          <img
+            src="web/assets/logo.png"
+            alt="CleanWrap logo"
+            width="32"
+            height="32"
+          />
+          <span>CleanWrap</span>
+        </a>
+
+        <nav class="nav-links" id="navLinks" aria-label="Primary">
+          <a href="#home" class="active">Home</a>
+          <a href="#features">Features</a>
+          <a href="#screenshots">Screenshots</a>
+          <a href="#download">Download</a>
+          <a href="#installation">Installation</a>
+          <a href="#faq">FAQ</a>
+          <a
+            href="https://github.com/ettisafxrup/CleanWrap"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+
+        <div class="nav-actions">
+          <button
+            class="icon-btn"
+            id="themeToggle"
+            aria-label="Toggle color theme"
+            title="Toggle theme"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              id="themeIcon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <a href="#download" class="btn btn-primary btn-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download
+          </a>
+          <button
+            class="icon-btn nav-toggle"
+            id="navToggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#filetypes">File Types</a>
+      <a href="#how">How It Works</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#duplicates">Duplicates Filtering</a>
+      <a href="#logs">Logs</a>
+      <a href="#installation">Installation</a>
+      <a href="#download">Download</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+      <a href="#developer">Developer</a>
+      <a
+        href="https://github.com/ettisafxrup/CleanWrap"
+        target="_blank"
+        rel="noopener"
+        >GitHub</a
+      >
+    </div>
+
+    <main>
+      <!-- ===================== HERO ===================== -->
+      <section class="hero" id="home">
+        <div class="floating-folders" aria-hidden="true">
+          <div
+            class="folder-float f1 parallax"
+            data-depth="26"
+            style="transform: translate3d(10.03px, -15.33px, 0px)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+              />
+            </svg>
+          </div>
+          <div
+            class="folder-float f2 parallax"
+            data-depth="-18"
+            style="transform: translate3d(-6.95px, 10.61px, 0px)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div
+            class="folder-float f3 parallax"
+            data-depth="22"
+            style="transform: translate3d(8.49px, -12.97px, 0px)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+          </div>
+          <div
+            class="folder-float f4 parallax"
+            data-depth="-26"
+            style="transform: translate3d(-10.03px, 15.33px, 0px)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" />
+            </svg>
+          </div>
+          <div
+            class="folder-float f5 parallax"
+            data-depth="16"
+            style="transform: translate3d(6.18px, -9.43px, 0px)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path d="M21 8v13H3V8" />
+              <rect x="1" y="3" width="22" height="5" rx="1" />
+              <line x1="10" y1="12" x2="14" y2="12" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="container hero-inner">
+          <div class="hero-tag reveal visible">
+            Windows Native · Modern C++20 · MIT Licensed
+          </div>
+          <h1 class="reveal visible">
+            <span class="gradient-text">CleanWrap</span>
+          </h1>
+          <p class="lead reveal visible">
+            CleanWrap is a fast, lightweight and modular Downloads folder
+            organizer written in Modern C++20. CleanWrap is designed to stay
+            lightweight, fast, and dependency-free while keeping your
+            directories clean with minimal user interaction.
+          </p>
+
+          <div class="hero-cta reveal visible">
+            <a href="#download" class="btn btn-primary">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download Latest Version
+            </a>
+            <a
+              href="https://github.com/ettisafxrup/CleanWrap"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"
+                />
+              </svg>
+              View Source Code
+            </a>
+          </div>
+
+          <div class="badges reveal">
+            <span class="badge"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="#facc15"
+              >
+                <polygon
+                  points="12 2 15.1 8.6 22 9.6 17 14.5 18.2 21.4 12 18.1 5.8 21.4 7 14.5 2 9.6 8.9 8.6 12 2"
+                />
+              </svg>
+              GitHub Stars
+              <strong id="git-stars" aria-live="polite" data-live-counter data-counter="0">0</strong></span
+            >
+            <span class="badge"
+              ><span class="dot live-dot"></span> Latest Version
+              <strong>v1.3.0</strong></span
+            >
+            <span class="badge">License <strong>MIT</strong></span>
+            <span class="badge"
+              >Downloads
+              <strong id="git-downloads" aria-live="polite" data-live-counter data-counter="0"
+                data-suffix="+">0</strong
+              ></span
+            >
+          </div>
+
+          <div class="hero-window reveal zoom">
+            <div class="win-bar">
+              <span class="win-dot r"></span><span class="win-dot y"></span
+              ><span class="win-dot g"></span>
+              <span class="win-title"
+                >C:\Users\You\Downloads — CleanWrap.exe</span
+              >
+            </div>
+            <div class="win-body">
+              <span class="dim">Scanning 1,248 files…</span>
+              <span class="ok">✔</span> Images →
+              <span class="mag">\Images\</span> 312 files moved
+              <span class="ok">✔</span> Documents →
+              <span class="mag">\Documents\</span> 186 files moved
+              <span class="ok">✔</span> Installers →
+              <span class="mag">\Executables\</span> 74 files moved
+              <span class="ok">✔</span> Archives →
+              <span class="mag">\Archives\</span> 58 files moved
+              <span class="warn">⚑</span> Duplicates →
+              <span class="mag">\Duplicates\</span> 41 files quarantined
+              <span class="ok">✔</span> Report written to
+              <span class="key">_CleanWrap.log</span>
+              <span class="dim">Completed in 0.84s</span
+              ><span class="caret"> </span>
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat glass reveal">
+              
+              <b class="gradient-text" data-counter="1500">0</b
+              ><span>Files / second</span>
+            </div>
+            <div class="stat glass reveal">
+              <b class="gradient-text" data-counter="20" data-suffix="+">0</b
+              ><span>Categories</span>
+            </div>
+            <div class="stat glass reveal">
+              <b class="gradient-text" data-counter="8" data-suffix=" MB">0</b
+              ><span>Install size</span>
+            </div>
+            <div class="stat glass reveal">
+              <b class="gradient-text" data-counter="100" data-suffix="%">0</b
+              ><span>Free &amp; open source</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== ABOUT ===================== -->
+      <section class="section" id="about">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">About</span>
+            <h2>
+              A tidy Downloads folder,
+              <span class="gradient-text">without the busywork</span>
+            </h2>
+            <p>
+              CleanWrap is a native Windows utility that takes the single
+              messiest folder on your machine and keeps it permanently under
+              control.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-copy reveal from-left">
+              <h3>What CleanWrap is</h3>
+              <p>
+                CleanWrap is a small, fast, native Windows application written
+                in modern C++20. It watches the folders you point it at —
+                usually <code>Downloads</code> — reads each file's real type,
+                and files it into a clean, predictable folder structure. It then
+                compares files by content hash to find true duplicates,
+                quarantines them safely, and writes a full report of every
+                action it took. No cloud account, no background bloat, no
+                telemetry.
+              </p>
+
+              <h3>Why it exists</h3>
+              <p>
+                The Downloads folder is where every installer, invoice, meme,
+                assignment draft and screenshot goes to die. Over months it
+                becomes thousands of unsorted files, dozens of near-identical
+                copies named <em>report (1).pdf</em>, <em>report (2).pdf</em>,
+                and gigabytes of storage you can't safely reclaim because you no
+                longer know what's what. Existing tools are either heavyweight
+                subscription "cleaners" that upsell you, or scripts that delete
+                things without telling you. CleanWrap was built as the honest
+                middle ground: fast, transparent, reversible by design, and free
+                forever.
+              </p>
+
+              <h3>Who should use it</h3>
+              <p>
+                Students juggling assignment revisions, developers drowning in
+                SDK installers and ZIP archives, designers with thousands of
+                exported assets, IT administrators standardising machines across
+                a team, and anyone who has ever scrolled a Downloads list for
+                two minutes looking for a file they downloaded yesterday. If you
+                use Windows and you download things, CleanWrap pays for itself
+                in the first run.
+              </p>
+
+              <h3>The benefits</h3>
+              <p>
+                Instant clarity over your files, real disk space recovered
+                through reliable duplicate detection, a repeatable structure
+                that stays consistent across machines, and a written audit trail
+                of everything that moved. CleanWrap never deletes anything on
+                its own — every duplicate is moved into a quarantine folder for
+                you to review, so a mistake is always one drag away from being
+                undone.
+              </p>
+            </div>
+
+            <aside class="about-side reveal from-right">
+              <div class="glass">
+                <h4>Zero configuration</h4>
+                <p>
+                  Install, run, done. Sensible defaults cover 20+ categories out
+                  of the box, and every rule is editable.
+                </p>
+              </div>
+              <div class="glass">
+                <h4>Content-verified duplicates</h4>
+                <p>
+                  FNV-1a hashing compares actual file bytes, not just names, so
+                  "Copy (2)" files are matched with confidence.
+                </p>
+              </div>
+              <div class="glass">
+                <h4>Nothing is destroyed</h4>
+                <p>
+                  Files are moved, never deleted. Every operation is written to
+                  <code>_CleanWrap.log</code>.
+                </p>
+              </div>
+              <div class="glass">
+                <h4>Native performance</h4>
+                <p>
+                  Modern C++20 and the Win32 API — thousands of files processed
+                  in under a second, with a ~2 MB footprint.
+                </p>
+              </div>
+              <div class="glass">
+                <h4>Fits your workflow</h4>
+                <p>
+                  Right-click any folder in Explorer to organize it, or let
+                  CleanWrap run quietly at startup.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== FEATURES ===================== -->
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Features</span>
+            <h2>
+              Everything you need to stay
+              <span class="gradient-text">permanently organized</span>
+            </h2>
+            <p>
+              Fourteen focused capabilities, each designed to do one thing
+              extremely well — and nothing you didn't ask for.
+            </p>
+          </div>
+          <div class="cards" id="featureCards">
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                  />
+                </svg>
+              </div>
+              <h4>Automatic file organization</h4>
+              <p>
+                Point CleanWrap at any folder and every file is sorted into a
+                clean category structure in a single pass — no rules to write.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  />
+                </svg>
+              </div>
+              <h4>Smart duplicate detection</h4>
+              <p>
+                Combines filename heuristics with size checks to shortlist
+                duplicates before a single byte is read from disk.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="4" y1="9" x2="20" y2="9" />
+                  <line x1="4" y1="15" x2="20" y2="15" />
+                  <line x1="10" y1="3" x2="8" y2="21" />
+                  <line x1="16" y1="3" x2="14" y2="21" />
+                </svg>
+              </div>
+              <h4>Hash-based verification</h4>
+              <p>
+                64-bit FNV-1a content hashing confirms that two files are truly
+                identical, eliminating false positives.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </div>
+              <h4>Filename pattern recognition</h4>
+              <p>
+                Recognises Windows and browser duplicate patterns like “(1)”, “
+                - Copy” and “ - Copy (3)” instantly.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="9" y1="15" x2="15" y2="15" />
+                  <line x1="9" y1="11" x2="13" y2="11" />
+                </svg>
+              </div>
+              <h4>Cleanup reports</h4>
+              <p>
+                Every run produces a timestamped _CleanWrap.log listing each
+                move, each duplicate and the space reclaimed.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="6" y="2" width="12" height="20" rx="6" />
+                  <line x1="12" y1="7" x2="12" y2="10" />
+                </svg>
+              </div>
+              <h4>Explorer context menu</h4>
+              <p>
+                Right-click any folder in Windows Explorer and choose “Organize
+                with CleanWrap” — no window required.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                  <line x1="12" y1="2" x2="12" y2="12" />
+                </svg>
+              </div>
+              <h4>Run on startup</h4>
+              <p>
+                Optionally launch with Windows and keep your Downloads folder
+                tidy automatically, in the background.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                  />
+                  <line x1="12" y1="11" x2="12" y2="17" />
+                  <line x1="9" y1="14" x2="15" y2="14" />
+                </svg>
+              </div>
+              <h4>Smart folder creation</h4>
+              <p>
+                Category folders are created only when they're needed, so you
+                never end up with empty clutter.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20.59 13.41 12 22l-9-9V3h10z" />
+                  <circle cx="7.5" cy="7.5" r="1.2" />
+                </svg>
+              </div>
+              <h4>Category detection</h4>
+              <p>
+                20+ built-in categories cover hundreds of extensions, with
+                signature checks for mislabeled files.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <polyline points="9 12 11 14 15 10" />
+                </svg>
+              </div>
+              <h4>Safe file moving</h4>
+              <p>
+                Atomic moves, automatic collision renaming, locked-file skipping
+                and zero deletions by default.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+              <h4>Fast execution</h4>
+              <p>
+                Over a thousand files processed per second on typical hardware —
+                most runs finish before you blink.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+                  <line x1="16" y1="8" x2="2" y2="22" />
+                </svg>
+              </div>
+              <h4>Lightweight</h4>
+              <p>
+                A ~2 MB installer, no runtime dependencies, no background
+                service eating your RAM.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+              </div>
+              <h4>Modern C++20</h4>
+              <p>
+                Written with std::filesystem, ranges and concepts for
+                correctness and speed, compiled with full optimisation.
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="3" width="8" height="8" />
+                  <rect x="13" y="3" width="8" height="8" />
+                  <rect x="3" y="13" width="8" height="8" />
+                  <rect x="13" y="13" width="8" height="8" />
+                </svg>
+              </div>
+              <h4>Windows native</h4>
+              <p>
+                Pure Win32 and the Windows shell API. No Electron, no .NET
+                runtime, no browser engine.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== FILE TYPES ===================== -->
+      <section class="section" id="filetypes">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Supported file types</span>
+            <h2>
+              20+ categories,
+              <span class="gradient-text">hundreds of extensions</span>
+            </h2>
+            <p>
+              CleanWrap identifies each file and routes it to a dedicated
+              folder. Anything unrecognised lands safely in <code>Others</code>.
+            </p>
+          </div>
+          <div class="filetypes" id="fileTypeGrid">
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+              </div>
+              <b>Images</b
+              ><small>.jpg .png .gif .webp .svg .heic</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" />
+                </svg>
+              </div>
+              <b>Videos</b><small>.mp4 .mkv .mov .avi .webm .wmv .flv</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+              </div>
+              <b>Audio</b><small>.mp3 .wav .flac .aac .m4a .ogg</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+              </div>
+              <b>PDFs</b><small>.pdf</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <line x1="8" y1="13" x2="16" y2="13" />
+                  <line x1="8" y1="17" x2="14" y2="17" />
+                </svg>
+              </div>
+              <b>Documents</b
+              ><small>.docx .xlsx .pptx .txt .md .csv</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <path d="M9 9h6v6H9z" />
+                </svg>
+              </div>
+              <b>Executables</b><small>.exe .msi .msix .bat .cmd</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 8v13H3V8" />
+                  <rect x="1" y="3" width="22" height="5" rx="1" />
+                  <line x1="10" y1="12" x2="14" y2="12" />
+                </svg>
+              </div>
+              <b>Archives</b><small>.zip .rar .7z .tar .gz .iso</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+              </div>
+              <b>Code files</b
+              ><small>.cpp .h .py .js .ts .json</small>
+            </div>
+            <div class="ft reveal zoom">
+              <div class="ficon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </div>
+              <b>Others</b><small>everything unrecognised, kept safe</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== HOW IT WORKS ===================== -->
+      <section class="section" id="how">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">How it works</span>
+            <h2>
+              Five steps, <span class="gradient-text">under a second</span>
+            </h2>
+            <p>
+              A deterministic pipeline you can reason about — and audit
+              afterwards.
+            </p>
+          </div>
+          <div class="timeline">
+            <div class="step reveal">
+              <div class="num">1</div>
+              <h4>Scan directory</h4>
+              <p>
+                CleanWrap enumerates the target folder recursively using the
+                Win32 file API, skipping locked and in-progress downloads.
+              </p>
+            </div>
+            <div class="step reveal">
+              <div class="num">2</div>
+              <h4>Detect file type</h4>
+              <p>
+                Each file is classified by extension and signature into one of
+                20+ categories, so a mislabeled file still lands correctly.
+              </p>
+            </div>
+            <div class="step reveal">
+              <div class="num">3</div>
+              <h4>Hash duplicate detection</h4>
+              <p>
+                Candidate duplicates are confirmed by comparing FNV-1a content
+                hashes, eliminating false positives entirely.
+              </p>
+            </div>
+            <div class="step reveal">
+              <div class="num">4</div>
+              <h4>Move files</h4>
+              <p>
+                Files are moved atomically into their category folder;
+                duplicates go to quarantine. Name collisions are resolved
+                automatically.
+              </p>
+            </div>
+            <div class="step reveal">
+              <div class="num">5</div>
+              <h4>Generate log</h4>
+              <p>
+                A timestamped <code>_CleanWrap.log</code> report records every
+                move, every duplicate and every byte reclaimed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== DUPLICATE DETECTION ===================== -->
+      <section class="section" id="duplicates">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Duplicate detection</span>
+            <h2>
+              Two signals,
+              <span class="gradient-text">one confident answer</span>
+            </h2>
+            <p>
+              Filename patterns find the candidates fast. Content hashing proves
+              they're really identical.
+            </p>
+          </div>
+
+          <div class="dup-grid">
+            <div class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+              </div>
+              <h4>FNV-1a hashing</h4>
+              <p>
+                Every candidate file is streamed through a 64-bit FNV-1a hash.
+                It's non-cryptographic by design — which makes it exceptionally
+                fast — and combined with a size pre-check it identifies
+                byte-identical files reliably at hundreds of megabytes per
+                second.
+              </p>
+              <div class="hash-anim" style="margin-top: 16px">
+                FNV-1a(64) → 0xcbf29ce484222325 … <br />invoice.pdf →
+                <strong>9ae16a3b2f90404f</strong><br />invoice (1).pdf →
+                <strong>9ae16a3b2f90404f</strong> ✔ match
+              </div>
+            </div>
+
+            <div class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </div>
+              <h4>Filename pattern recognition</h4>
+              <p>
+                Windows and browsers generate duplicates with predictable
+                suffixes. CleanWrap normalises those patterns to shortlist
+                candidates before any file is read from disk.
+              </p>
+              <div class="dup-examples">
+                <code>MyFile (1).pdf</code>
+                <code>Image - Copy.png</code>
+                <code>Assignment - Copy (3).docx</code>
+              </div>
+            </div>
+
+            <div class="card reveal">
+              <div class="card-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <polyline points="9 12 11 14 15 10" />
+                </svg>
+              </div>
+              <h4>Why hash verification matters</h4>
+              <p>
+                A filename is a guess; a hash is proof.
+                <code>report (1).pdf</code> is often an <em>edited</em> version,
+                not a copy — deleting it on name alone loses real work.
+                CleanWrap only flags a file as duplicate when the size matches
+                <em>and</em> the content hash matches, then moves it to
+                quarantine rather than deleting it. False positives approach
+                zero, and even a true positive stays recoverable.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== LOGGING ===================== -->
+      <section class="section" id="logs">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Logging</span>
+            <h2>
+              Every action, <span class="gradient-text">written down</span>
+            </h2>
+            <p>
+              CleanWrap drops a plain-text report in the folder it just
+              organized.
+            </p>
+          </div>
+
+          <div class="code-block reveal zoom">
+            <div class="code-head">
+              <span class="win-dot r"></span><span class="win-dot y"></span
+              ><span class="win-dot g"></span>
+              <span class="win-title">_CleanWrap.log</span>
+              <button class="btn btn-ghost btn-sm copy-btn" id="copyLog">
+                Copy
+              </button>
+            </div>
+
+            
+            <div class="code-body" id="logText">
+              <span class="key">___x______x______x______x______x______x___</span>
+              <span class="mag">_CleanWrap : &gt; 10:59 PM | 06 August, 2026</span>
+              ====================================================
+              <span class="key">[LOG]</span> _CleanWrap__Cleanup
+              ====================================================
+
+              <span class="ok">[Images]</span>                : 312
+              <span class="ok">[PDFs]</span>                  : 186
+              <span class="ok">[Videos]</span>                : 154
+              <span class="ok">[Audio]</span>                 : 98
+              <span class="ok">[Documents]</span>             : 171
+              <span class="ok">[Code]</span>                  : 124
+              <span class="ok">[Archives]</span>              : 58
+              <span class="ok">[Executables]</span>           : 74
+              <span class="ok">[Others]</span>                : 25
+
+              ====================================================
+
+              <span class="mag">Total Files Handled</span>    : 1202
+              ____________________________________________
+
+              <span class="warn">Duplicates</span>            : 41
+              <span class="dim">Errors</span>                 : 0
+
+              ====================================================
+              <span class="key">___x______x______x______x______x______x___</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== INSTALLATION ===================== -->
+      <section class="section" id="installation">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Installation</span>
+            <h2>
+              Up and running in
+              <span class="gradient-text">under a minute</span>
+            </h2>
+            <p>
+              A signed Windows installer, five clicks, no dependencies to
+              install.
+            </p>
+          </div>
+
+          <div class="install">
+            <div class="inst reveal">
+              <h4>Download the installer</h4>
+              <p>
+                Grab <code>CleanWrap-Setup-1.0.0.exe</code> (4.3 MB) from the
+                download section or the GitHub Releases page.
+              </p>
+            </div>
+            <div class="inst reveal">
+              <h4>Run the installer</h4>
+              <p>
+                Double-click the setup file and accept the SmartScreen prompt.
+                Installation needs about 6 MB of disk space.
+              </p>
+            </div>
+            <div class="inst reveal">
+              <h4>Select startup option</h4>
+              <p>
+                Choose whether CleanWrap should run automatically at Windows
+                startup and organize your Downloads folder in the background.
+              </p>
+            </div>
+            <div class="inst reveal">
+              <h4>Enable Explorer context menu</h4>
+              <p>
+                Tick the shell integration option to add “Organize with
+                CleanWrap” to the right-click menu of any folder.
+              </p>
+            </div>
+            <div class="inst reveal">
+              <h4>Finish</h4>
+              <p>
+                Launch CleanWrap, point it at a folder and press Organize. Your
+                first cleanup report appears within seconds.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== DOWNLOAD ===================== -->
+      <section class="section" id="download">
+        <div class="container">
+          <div class="download-panel reveal zoom">
+            <span class="eyebrow">Download</span>
+            <h2>Get <span class="gradient-text">CleanWrap v1.3.0</span></h2>
+            <p style="max-width: 560px; margin-inline: auto">
+              Free, open source and MIT licensed. Compatible with every Windows Version available, including Windows 11 (x64 and ARM64).
+            </p>
+            <div class="dl-buttons">
+              <a
+              id="download-link"
+                href="https://github.com/ettisafxrup/CleanWrap/releases/latest/download/CleanWrap_v1.3.0_Setup.exe/"
+                class="btn btn-primary"
+                rel="noopener"
+              >
+                <svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="currentColor"
+>
+  <path d="M2 4.5L11 3v8H2V4.5Zm11 0L22 3v8h-9V4.5ZM2 13h9v8L2 19.5V13Zm11 0h9v8.5L13 20v-7Z"/>
+</svg>
+                Download Latest Version
+              </a>
+              <a
+                href="https://github.com/ettisafxrup/CleanWrap/releases"
+                class="btn btn-ghost"
+                target="_blank"
+                rel="noopener"
+                >GitHub Releases</a
+              >
+              <a
+                href="https://github.com/ettisafxrup/CleanWrap"
+                class="btn btn-ghost"
+                target="_blank"
+                rel="noopener"
+                >Source Code</a
+              >
+              <a
+                href="https://github.com/ettisafxrup/CleanWrap/docs/.txt/CleanWrap_User_Manual_v1.0.txt"
+                class="btn btn-ghost"
+                target="_blank"
+                rel="noopener"
+                >User Manual</a
+              >
+            </div>
+            <div class="dl-meta">
+              CleanWrap-Setup-1.0.exe · 4.3 MB · Released August 2026
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== ROADMAP ===================== -->
+      <section class="section" id="roadmap">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Roadmap</span>
+            <h2>
+              Where CleanWrap is <span class="gradient-text">heading next</span>
+            </h2>
+            <p>Public, community-driven and tracked in the open on GitHub.</p>
+          </div>
+          <div class="roadmap" id="roadmapList">
+            <div class="rm reveal from-left">
+              <h4>CleanWrapUpdater <span class="tag soon">Next</span></h4>
+              <p>
+                Signed delta updates checked in the background so you always run
+                the latest release.
+              </p>
+            </div>
+            <div class="rm reveal from-left">
+              <h4>Linux support <span class="tag soon">Next</span></h4>
+              <p>
+                A portable core with an ELF build for major distributions,
+                sharing the same rules engine.
+              </p>
+            </div>
+            <div class="rm reveal from-left">
+              <h4>macOS support <span class="tag later">Planned</span></h4>
+              <p>
+                Universal binary for Apple Silicon and Intel, with Finder
+                integration.
+              </p>
+            </div>
+            <div class="rm reveal from-left">
+              <h4>Cloud sync <span class="tag later">Planned</span></h4>
+              <p>
+                Sync your category rules and preferences across every machine
+                you use.
+              </p>
+            </div>
+            <div class="rm reveal from-left">
+              <h4>Undo <span class="tag later">Planned</span></h4>
+              <p>
+                One-click rollback of an entire run, reconstructed from the
+                transactional log.
+              </p>
+            </div>
+            <div class="rm reveal from-left">
+              <h4>
+                Statistics dashboard <span class="tag later">Planned</span>
+              </h4>
+              <p>
+                Long-term insight into what you download, how much you duplicate
+                and space saved over time.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== FAQ ===================== -->
+      <section class="section" id="faq">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">FAQ</span>
+            <h2>
+              Frequently asked <span class="gradient-text">questions</span>
+            </h2>
+            <p>Everything people ask before their first run.</p>
+          </div>
+          <div class="faq" id="faqList">
+            <div class="acc reveal">
+              <button class="acc-q" type="button" aria-expanded="false">
+                <span>What does CleanWrap do?</span
+                ><span class="chev"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" /></svg
+                ></span>
+              </button>
+              <div class="acc-a">
+                <p>
+                  CleanWrap scans a folder — usually your Windows Downloads
+                  folder — identifies the type of every file inside it, and
+                  moves each file into a matching category folder such as
+                  Images, Documents or Archives. While doing so it detects
+                  duplicate files, quarantines them separately, and writes a
+                  full report of everything it did.
+                </p>
+              </div>
+            </div>
+            <div class="acc reveal">
+              <button class="acc-q" type="button" aria-expanded="false">
+                <span>Does it delete files?</span
+                ><span class="chev"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" /></svg
+                ></span>
+              </button>
+              <div class="acc-a">
+                <p>
+                  No. CleanWrap never deletes anything on its own. Files are
+                  moved, not removed, and detected duplicates are placed in a
+                  dedicated Duplicates folder so you can review them yourself
+                  before deciding. Every single operation is recorded in
+                  _CleanWrap.log.
+                </p>
+              </div>
+            </div>
+            <div class="acc reveal">
+              <button class="acc-q" type="button" aria-expanded="false">
+                <span>How are duplicates detected?</span
+                ><span class="chev"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" /></svg
+                ></span>
+              </button>
+              <div class="acc-a">
+                <p>
+                  In two stages. First, filename patterns such as “file (1).pdf”
+                  or “image - Copy.png” and matching file sizes shortlist likely
+                  duplicates. Second, each candidate is verified with a 64-bit
+                  FNV-1a content hash. A file is only treated as a duplicate
+                  when its content hash matches an existing file exactly.
+                </p>
+              </div>
+            </div>
+            <div class="acc reveal">
+              <button class="acc-q" type="button" aria-expanded="false">
+                <span>Can I undo changes?</span
+                ><span class="chev"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" /></svg
+                ></span>
+              </button>
+              <div class="acc-a">
+                <p>
+                  Manually, yes — because nothing is deleted, restoring a file
+                  is a matter of dragging it back, and the log tells you exactly
+                  where each file came from and where it went. A one-click
+                  automatic Undo built on the transactional log is on the
+                  roadmap.
+                </p>
+              </div>
+            </div>
+            <div class="acc reveal">
+              <button class="acc-q" type="button" aria-expanded="false">
+                <span>Does it support Windows 11?</span
+                ><span class="chev"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" /></svg
+                ></span>
+              </button>
+              <div class="acc-a">
+                <p>
+                  Yes. CleanWrap fully supports Windows 11 and Windows 10 on
+                  both x64 and ARM64, including the Windows 11 modern context
+                  menu. It requires no .NET runtime or other dependency.
+                </p>
+              </div>
+            </div>
+            <div class="acc reveal">
+              <button class="acc-q" type="button" aria-expanded="false">
+                <span>Is it free?</span
+                ><span class="chev"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" /></svg
+                ></span>
+              </button>
+              <div class="acc-a">
+                <p>
+                  Completely. CleanWrap is free and open source under the MIT
+                  License. There is no paid tier, no trial period, no ads and no
+                  telemetry — you can read, modify and redistribute the source
+                  on GitHub.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== DEVELOPER ===================== -->
+      <section class="section" id="developer">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">About the developer</span>
+            <h2>Built by <span class="gradient-text">One Engineer</h2>
+          </div>
+          <div class="glass dev reveal">
+            <div class="dev-avatar"></div>
+            <div>
+              <h3>Ettisaf Rup</h3>
+              <div class="role">
+                Software Lead, XtendArena · Creator of CleanWrap
+              </div>
+              <p>
+                A regular Computer Aficionado, Undergraduate at B.Sc, CSE | KUET
+                with a strong foundation in programming, problem-solving, and
+                system-level understanding. Passionate about learning, exploring
+                and understanding how things work under the hood. Enthusiastic
+                about building efficient, scalable, meaningful and innovative
+                solutions. Known for being a fast learner, team player, and
+                someone who blends the mess.
+              </p>
+              <p>
+                Ettisaf builds fast, native desktop software with a focus on
+                systems programming and human-friendly tooling. CleanWrap
+                started as a weekend script to survive a Downloads folder with
+                9,000 files in it, and grew into a full C++20 Windows
+                application used by thousands of people who had exactly the same
+                problem.
+              </p>
+              <div class="socials">
+                <a
+                  class="social"
+                  href="https://github.com/ettisafxrup"
+                  target="_blank"
+                  rel="noopener"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"
+                    />
+                  </svg>
+                  GitHub</a
+                >
+                <a
+                  class="social"
+                  href="https://linkedin.com/in/ettisafxrup"
+                  target="_blank"
+                  rel="noopener"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.24 8.25h4.5V24H.24zM8.34 8.25h4.31v2.15h.06c.6-1.13 2.07-2.32 4.26-2.32 4.56 0 5.4 3 5.4 6.9V24h-4.5v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.17V24h-4.5z"
+                    />
+                  </svg>
+                  LinkedIn</a
+                >
+                <a
+                  class="social"
+                  href="https://facebook.com/ettisafxrup"
+                  target="_blank"
+                  rel="noopener"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"
+                    />
+                  </svg>
+                  Facebook</a
+                >
+                <a
+                  class="social"
+                  href="https://instagram.com/ettisafxrup"
+                  target="_blank"
+                  rel="noopener"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle
+                      cx="17.5"
+                      cy="6.5"
+                      r="1"
+                      fill="currentColor"
+                      stroke="none"
+                    />
+                  </svg>
+                  Instagram</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a class="brand" href="#home"
+              ><img
+                src="web/assets/logo.png"
+                alt="CleanWrap logo"
+                width="32"
+                height="32"
+              /><span>CleanWrap</span></a
+            >
+            <p style="margin-top: 14px; max-width: 320px; font-size: 14.5px">
+              Automatically organize your Downloads folder with intelligent file
+              categorization and smart duplicate detection.
+            </p>
+          </div>
+          <div>
+            <h5>Product</h5>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#download">Download</a></li>
+              <li><a href="#roadmap">Roadmap</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="#installation">Installation</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li>
+                <a
+                  href="https://github.com/ettisafxrup/CleanWrap/docs/.txt/CleanWrap_User_Manual_v1.0.txt"
+                  target="_blank"
+                  rel="noopener"
+                  >User Manual</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/ettisafxrup/CleanWrap/releases"
+                  target="_blank"
+                  rel="noopener"
+                  >Releases</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h5>Project</h5>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/ettisafxrup/CleanWrap"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/ettisafxrup/CleanWrap/blob/main/LICENSE"
+                  target="_blank"
+                  rel="noopener"
+                  >MIT License</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/ettisafxrup/CleanWrap/issues"
+                  target="_blank"
+                  rel="noopener"
+                  >Report an issue</a
+                >
+              </li>
+              <li><a href="#developer">Developer</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span
+            >© <span id="year">2026</span> CleanWrap · Ettisaf Rup · Version
+            1.4.0 · MIT License</span
+          >
+          <span
+            >Made with ❤️ by
+            <a href="https://github.com/ettisafxrup">@ettisafxrup</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <button id="toTop" aria-label="Back to top">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
+    </button>
+
+    <script src="web/js/animations.js" defer></script>
+    <script src="web/js/main.js" defer></script>
+  </body>
+</html>
