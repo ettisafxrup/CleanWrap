@@ -1,0 +1,120 @@
+name: Release CleanWrap
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create CleanWrap Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      # ─────────────────────────────────────────────
+      # Extract version
+      # ─────────────────────────────────────────────
+      - name: Extract version
+        id: version
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "ERROR: Invalid release tag: $TAG"
+            echo "Expected format: v1.0.1"
+            exit 1
+          fi
+
+          VERSION="${TAG#v}"
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          echo "Release tag: $TAG"
+          echo "Release version: $VERSION"
+
+      # ─────────────────────────────────────────────
+      # Locate installer
+      # ─────────────────────────────────────────────
+      - name: Locate installer
+        id: installer
+        shell: bash
+        run: |
+          INSTALLER="release/CleanWrap_v${{ steps.version.outputs.version }}_Setup.exe"
+
+          if [ ! -f "$INSTALLER" ]; then
+            echo "ERROR: Installer not found:"
+            echo "$INSTALLER"
+            echo ""
+            echo "Contents of release/:"
+            ls -lah release/ || true
+            exit 1
+          fi
+
+          echo "installer=$INSTALLER" >> "$GITHUB_OUTPUT"
+
+          echo "Installer found:"
+          ls -lh "$INSTALLER"
+
+      # ─────────────────────────────────────────────
+      # Locate release notes
+      # ─────────────────────────────────────────────
+      - name: Locate release notes
+        id: notes
+        shell: bash
+        run: |
+          NOTES="docs/release_notes/note_v${{ steps.version.outputs.version }}.md"
+
+          if [ ! -f "$NOTES" ]; then
+            echo "ERROR: Release notes not found:"
+            echo "$NOTES"
+            echo ""
+            echo "Available release notes:"
+            ls -lah docs/release_notes/ || true
+            exit 1
+          fi
+
+          echo "notes=$NOTES" >> "$GITHUB_OUTPUT"
+
+          echo "Release notes found:"
+          ls -lh "$NOTES"
+
+      # ─────────────────────────────────────────────
+      # Calculate SHA-256
+      # ─────────────────────────────────────────────
+      - name: Calculate SHA-256
+        id: hash
+        shell: bash
+        run: |
+          HASH=$(sha256sum "${{ steps.installer.outputs.installer }}" | awk '{print $1}')
+
+          echo "sha256=$HASH" >> "$GITHUB_OUTPUT"
+          echo "SHA-256:"
+          echo "$HASH"
+
+      # ─────────────────────────────────────────────
+      # Create GitHub Release
+      # ─────────────────────────────────────────────
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: CleanWrap v${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.tag }}
+
+          body_path: ${{ steps.notes.outputs.notes }}
+
+          files: |
+            ${{ steps.installer.outputs.installer }}
+
+          fail_on_unmatched_files: true

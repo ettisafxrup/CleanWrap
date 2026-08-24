@@ -1,0 +1,75 @@
+📁 Repository Structure:
+
+.
+├── 📂 assets
+│ ├── cleanwrap.ico
+│ ├── icon.rc
+│ ├── installer_banner.bmp
+│ ├── installer_icon.bmp
+│ ├── logo.png
+│
+├── 📂 docs
+│
+│ ├── 📂 .txt
+│ │ ├── CleanWrap_User_Manual_v1.0.txt
+│ │ ├── GREETING.txt
+│ │ ├── README.txt
+│ │ ├── THANK_YOU.txt
+│ │ ├── UNINSTALL.txt
+│ │ ├── User_Manual.txt
+│ ├── index.html
+│ │
+│ ├── 📂 release_notes
+│ │ │
+│ │ ├── note_v1.0.0.md
+│ │ ├── note_v1.0.1.md
+│ │ ├── note_v1.2.0.md
+│ │ │
+│ ├── 📂 web
+│ │ │ │
+│ │ ├── 📂 assets
+│ │ │ ├── dev.png
+│ │ │ ├── logo.png
+│ │ │ │
+│ │ ├── 📂 css
+│ │ │ ├── animations.css
+│ │ │ ├── responsive.css
+│ │ │ ├── style.css
+│ │ │ │
+│ │ ├── 📂 fonts
+│ │ │ ├── inter.css
+│ │ │ │
+│ │ ├── 📂 js
+│ │ │ ├── animations.js
+│ │ │ ├── main.js
+│
+├── 📂 include
+│ ├── DuplicateDetector.hpp
+│ ├── FileClassifier.hpp
+│ ├── FileOrganizer.hpp
+│ ├── FileTypes.hpp
+│ ├── Notifications.hpp
+│ ├── Statistics.hpp
+│ ├── UpdateChecker.hpp
+│ ├── Version.hpp
+│
+├── 📂 innosetup
+│ ├── cleanwrap_inno.iss
+│
+├── 📂 release
+│ ├── CleanWrap_v1.0.0_Setup.exe
+│ ├── CleanWrap_v1.0.1_Setup.exe
+│ ├── CleanWrap_v1.2.0_Setup.exe
+│
+├── 📂 src
+│ ├── DuplicateDetector.cpp
+│ ├── FileClassifier.cpp
+│ ├── FileOrganizer.cpp
+│ ├── FileTypes.cpp
+│ ├── Statistics.cpp
+│ ├── UpdateChecker.cpp
+│
+├── main.cpp
+│
+├── release.sh
+├── compile.sh

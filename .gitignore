@@ -1,0 +1,8 @@
+# .gitignore Itself
+.gitignore
+
+# Executables
+/*.exe
+
+# Release notes
+docs/release_notes/

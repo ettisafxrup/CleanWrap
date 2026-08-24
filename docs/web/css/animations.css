@@ -1,0 +1,98 @@
+/* ============================================================
+   CleanWrap — Animations
+   ============================================================ */
+
+@keyframes ripple-out {
+  to { transform: scale(3.2); opacity: 0; }
+}
+
+@keyframes pulse-mark {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.12); filter: brightness(1.25); }
+}
+
+@keyframes loader-slide {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(320%); }
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-30px, 26px) scale(0.94); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-18px) rotate(var(--rot, 0deg)); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.gradient-text {
+  background-size: 220% 220%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1);
+  will-change: opacity, transform;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.from-left { transform: translateX(-30px); }
+.reveal.from-right { transform: translateX(30px); }
+.reveal.from-left.visible,
+.reveal.from-right.visible { transform: translateX(0); }
+.reveal.zoom { transform: scale(.94); }
+.reveal.zoom.visible { transform: scale(1); }
+
+/* Hash scan animation */
+@keyframes hash-scan {
+  0% { opacity: .35; }
+  50% { opacity: 1; }
+  100% { opacity: .35; }
+}
+.hash-anim { animation: hash-scan 2.6s ease-in-out infinite; }
+
+/* Typing caret for hero terminal */
+@keyframes blink { 50% { opacity: 0; } }
+.caret { display: inline-block; width: 8px; background: var(--accent-soft); animation: blink 1s step-end infinite; }
+
+/* Parallax layer helper */
+.parallax { transition: transform .25s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+
+/* Pulsing dot */
+@keyframes ping {
+  0% { transform: scale(1); opacity: .8; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+.live-dot { position: relative; }
+.live-dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--accent-soft); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

@@ -1,0 +1,67 @@
+
+CleanWrap
+Smart File Organizer for Windows
+=====================
+
+Version: v1.0
+Developer: Ettisaf Rup
+GitHub: https://github.com/ettisafxrup
+___ ___ ___
+
+CleanWrap automatically organizes messy folders into clean,
+well-structured categories.
+Simply run the application or right-click inside any folder and choose
+	✨ Organize with CleanWrap
+Your files will be sorted into categories such as:
+Duplicate files are automatically detected and separated.
+
+----------------------------------------------------------------------
+Features
+----------------------------------------------------------------------
+• Intelligent file categorization
+• Smart duplicate detection
+• Automatic cleanup report
+• Windows Context Menu integration
+• Startup support
+• Lightweight and portable
+• No internet required
+• Completely local processing
+=======================
+Release Notes | Version 1.0
+=======================
+Highlights
+• Brand new file organization engine
+• Smart duplicate detection
+• Windows Explorer integration
+• Automatic logging
+• Startup support
+• Improved folder creation logic
+Performance
+• Faster hashing
+• Reduced unnecessary folder creation
+• Improved duplicate recognition
+Bug Fixes
+• Fixed repeated log generation
+• Fixed log file moving issue
+• Improved duplicate filename detection
+=======================
+CleanWrap Changelog | Version 1.0
+=======================
+Currently Installing: CleanWrap Stable v1.0
+New Features
+✓ Automatic Downloads Organizer
+✓ Right-click "Organize with CleanWrap"
+✓ Smart duplicate detection
+✓ Cleanup statistics
+✓ Automatic log generation
+✓ Dynamic folder creation
+✓ Startup integration
+✓ Safe file renaming
+✓ Modern C++20 implementation
+Known Limitations
+• CleanWrap is just a Windows-only application.
+• No cloud synchronization.
+• No undo feature (yet).
+
+Made by Ettisaf Rup | ettisafxrup
+Software Lead, XtendArena.
