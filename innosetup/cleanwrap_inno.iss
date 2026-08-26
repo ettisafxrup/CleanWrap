@@ -23,6 +23,9 @@ AppUpdatesURL={#CleanWrapURL}
 DefaultDirName={autopf}\{#CleanWrapName}
 DefaultGroupName={#CleanWrapName}
 
+PrivilegesRequired=admin
+UsedUserAreasWarning=no
+
 UninstallDisplayIcon={app}\{#CleanWrapName}_v{#CleanWrapVersion}_Setup
 
 ArchitecturesAllowed=x64compatible

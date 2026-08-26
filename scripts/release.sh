@@ -1,4 +1,6 @@
-readonly VERSION_HEADER="../include/Version.hpp"
+cd $(pwd)
+
+readonly VERSION_HEADER="./include/Version.hpp"
 readonly VERSION="v$(sed -n 's/^#define CLEANWRAP_VERSION "\(.*\)"/\1/p' "$VERSION_HEADER")"
 
 if [ $# -eq 1 ]; then

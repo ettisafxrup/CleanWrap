@@ -7,17 +7,25 @@
 # Software Crew, XtendArena.
 # =========================================
 
+#
+#  For Normal Compilation, run Script
+#  For Compilation with Installer, run Script with passing parameter 1. | ./compile.sh 1
+#
+
 set -euo pipefail
 IFS=$'\n\t'
 
-readonly BUILD_DIR="../release"
-readonly ICON_RC="../assets/icon.rc"
-readonly ICON_OBJ="../icon.o"
+cd $(pwd)
+
+readonly BUILD_DIR="release"
+readonly ICON_RC="./assets/icon.rc"
+readonly ICON_OBJ="./icon.o"
 
 readonly APP_NAME="CleanWrap"
-readonly VERSION_HEADER="../include/Version.hpp"
+readonly VERSION_HEADER="./include/Version.hpp"
 readonly OUTPUT_EXE="${APP_NAME}.exe"
-readonly INNO_SCRIPT="../innosetup/cleanwrap_inno.iss"
+readonly INNO_SCRIPT="./innosetup/cleanwrap_inno.iss"
+
 
 INSTALLER_MODE=false
 
@@ -26,6 +34,8 @@ if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     printf 'Error: invalid version in %s.\n' "$VERSION_HEADER"
     exit 1
 fi
+
+echo "Version: $VERSION"
 
 print() {
     printf '\n%s\n' "============================================"
