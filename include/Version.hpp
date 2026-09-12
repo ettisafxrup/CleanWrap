@@ -6,6 +6,8 @@
 #ifndef CLEANWRAP_VERSION_HPP
 #define CLEANWRAP_VERSION_HPP
 
+#include "Version.h"
+
 #define CLEANWRAP_VERSION "1.4.0"
 #define CLEANWRAP_VERSION_TAG "v" CLEANWRAP_VERSION
 
