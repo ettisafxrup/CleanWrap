@@ -3,10 +3,12 @@
 #include <iostream>
 #include "include/FileOrganizer.hpp"
 #include "include/UpdateChecker.hpp"
+#include "include/WindowsCleanup.hpp"
 namespace fs = std::filesystem;
 
 int main(int argc, char *argv[])
 {
+    WindowsCleanup::run();
     UpdateChecker::checkForUpdates();
 
     const char *userProfile = std::getenv("USERPROFILE");

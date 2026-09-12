@@ -33,6 +33,8 @@ The application is designed to run once, organize everything in seconds, generat
 - Detects duplicate files using high-speed 64-bit FNV-1a hashing
 - Recognizes common Windows duplicate filename patterns
 - Places duplicate files into dedicated duplicate folders
+- Cleans user and Windows temporary files at startup
+- Clears the Windows Prefetch cache when permitted
 - Automatically generates detailed cleanup logs
 - Can automatically organize Downloads every time Windows starts (optional)
 - Lightweight and extremely fast
@@ -40,6 +42,17 @@ The application is designed to run once, organize everything in seconds, generat
 - Built entirely using Modern C++20
 
 ---
+
+## 🧹 Windows Cleanup
+
+At startup, CleanWrap removes the contents of the following Windows cleanup locations:
+
+- The current user's `%TEMP%` directory
+- `%LOCALAPPDATA%\Temp`
+- `%WINDIR%\Temp`
+- `%WINDIR%\Prefetch`
+
+The directories themselves are preserved. Files that are locked or require additional permissions are skipped and reported without stopping the rest of the cleanup or file organization.
 
 After installing CleanWrap, your **Downloads** folder will look cleaner than ever!
 
@@ -205,6 +218,7 @@ CleanWrap/
 │   ├── Notifications.hpp
 │   ├── Statistics.hpp
 │   ├── UpdateChecker.hpp
+│   ├── WindowsCleanup.hpp
 │   └── Version.hpp
 ├── innosetup/
 │   └── cleanwrap_inno.iss
@@ -218,7 +232,8 @@ CleanWrap/
 │   ├── FileOrganizer.cpp
 │   ├── FileTypes.cpp
 │   ├── Statistics.cpp
-│   └── UpdateChecker.cpp
+│   ├── UpdateChecker.cpp
+│   └── WindowsCleanup.cpp
 ├── main.cpp
 ├── release.sh
 └── compile.sh
