@@ -51,7 +51,7 @@ jobs:
         id: installer
         shell: bash
         run: |
-          INSTALLER="release/CleanWrap_v${GITHUB_REF_NAME}_Setup.exe"
+          INSTALLER="release/CleanWrap_v${{ steps.version.outputs.version }}_Setup.exe"
 
           if [ ! -f "$INSTALLER" ]; then
             echo "ERROR: Installer not found:"
