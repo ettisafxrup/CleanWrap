@@ -1,12 +1,12 @@
 ; ==========================================================
 ; CleanWrap Installer
-; Version: 1.0
+; Version is supplied from release.json by scripts/compile.sh.
 ; Author: Ettisaf Rup
 ; ==========================================================
 
 #define CleanWrapName "CleanWrap"
 #ifndef CleanWrapVersion
-#define CleanWrapVersion "0.0.0"
+#error CleanWrapVersion must be supplied from release.json
 #endif
 #define CleanWrapPublisher "XtendArena"
 #define CleanWrapURL "https://ettisafxrup.github.io/CleanWrap"
@@ -26,7 +26,7 @@ DefaultGroupName={#CleanWrapName}
 PrivilegesRequired=admin
 UsedUserAreasWarning=no
 
-UninstallDisplayIcon={app}\{#CleanWrapName}_v{#CleanWrapVersion}_Setup
+UninstallDisplayIcon={app}\{#CleanWrapName}_v{#CleanWrapVersion}
 
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
@@ -39,7 +39,7 @@ WizardStyle=modern
 DisableProgramGroupPage=no
 
 OutputDir=D:\Codes\CleanWrap\release
-OutputBaseFilename={#CleanWrapName}_v{#CleanWrapVersion}_Setup
+OutputBaseFilename={#CleanWrapName}_v{#CleanWrapVersion}
 
 SetupIconFile=D:\Codes\CleanWrap\assets\cleanwrap.ico
 
@@ -156,6 +156,6 @@ Flags: uninsdeletevalue
 
 [Run]
 
-; Filename: "{app}\{#CleanWrapName}_v{#CleanWrapVersion}_Setup"; \
+; Filename: "{app}\{#CleanWrapName}_v{#CleanWrapVersion}"; \
 ; Description: "Launch CleanWrap"; \
 ; Flags: nowait postinstall skipifsilent

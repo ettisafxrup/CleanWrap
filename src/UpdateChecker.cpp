@@ -1,5 +1,6 @@
+#define CLEANWRAP_VERSION "1.4.0"
+
 #include "UpdateChecker.hpp"
-#include "Version.hpp"
 
 #include <windows.h>
 #include <shellapi.h>
@@ -17,7 +18,7 @@ namespace fs = std::filesystem;
 
 namespace
 {
-    constexpr auto CHECK_INTERVAL = std::chrono::hours(24 * 3);
+    constexpr auto CHECK_INTERVAL = std::chrono::hours(24);
 
     constexpr wchar_t GITHUB_HOST[] = L"api.github.com";
     constexpr wchar_t RELEASE_PATH[] =
@@ -361,6 +362,7 @@ void UpdateChecker::checkForUpdates()
      * This prevents repeated network requests every time the
      * application starts while the user is offline.
      */
+
     rememberCheckTime(cachePath);
 
     std::string latestVersion;

@@ -416,6 +416,35 @@
     return response.json()
   }
 
+  async function loadReleaseVersion() {
+    try {
+      const release = await fetchJson(
+        "https://raw.githubusercontent.com/ettisafxrup/CleanWrap/main/release.json",
+      )
+      if (!release || typeof release.version !== "string") return
+
+      const version = release.version
+      document.querySelectorAll("[data-release-version]").forEach((node) => {
+        node.textContent = version
+      })
+      const schema = document.getElementById("software-schema")
+      if (schema) {
+        const schemaData = JSON.parse(schema.textContent)
+        schemaData.softwareVersion = version
+        schema.textContent = JSON.stringify(schemaData)
+      }
+      const downloadLink = document.getElementById("download-link")
+      if (downloadLink) {
+        downloadLink.href =
+          "https://github.com/ettisafxrup/CleanWrap/releases/latest/download/CleanWrap_v" +
+          version +
+          "_Setup.exe"
+      }
+    } catch (error) {
+      console.warn("Release version unavailable:", error)
+    }
+  }
+
   async function fetchBadgeValue(url) {
     const badge = await fetchJson(url)
     const value = parseBadgeValue(badge && (badge.message || badge.value))
@@ -666,6 +695,7 @@
     if (y) y.textContent = String(new Date().getFullYear())
 
     if (window.CleanWrapAnimations) window.CleanWrapAnimations.init()
+    loadReleaseVersion()
     loadGithubStats()
   }
 
