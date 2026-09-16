@@ -22,16 +22,24 @@ readonly ICON_RC="./assets/icon.rc"
 readonly ICON_OBJ="./icon.o"
 
 readonly APP_NAME="CleanWrap"
-readonly VERSION_HEADER="./include/Version.hpp"
-readonly OUTPUT_EXE="${APP_NAME}.exe"
+readonly RELEASE_FILE="./release.json"
+readonly VERSION=$(sed -n 's/^[[:space:]]*"version"[[:space:]]*:[[:space:]]*"\([^\"]*\)".*/\1/p' "$RELEASE_FILE")
 readonly INNO_SCRIPT="./innosetup/cleanwrap_inno.iss"
 
+readonly OUTPUT_EXE="${APP_NAME}.exe"
+
+sed -i '/#define CLEANWRAP_VERSION/d' ./src/UpdateChecker.cpp
+sed -i "1i #define CLEANWRAP_VERSION \"$VERSION\"" ./src/UpdateChecker.cpp
 
 INSTALLER_MODE=false
 
-VERSION=$(sed -n 's/^#define CLEANWRAP_VERSION "\(.*\)"/\1/p' "$VERSION_HEADER")
+
+if [[ -z "$VERSION" ]]; then
+    printf 'Error: missing version in %s.\n' "$RELEASE_FILE"
+    exit 1
+fi
 if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    printf 'Error: invalid version in %s.\n' "$VERSION_HEADER"
+    printf 'Error: invalid version in %s.\n' "$RELEASE_FILE"
     exit 1
 fi
 
@@ -51,7 +59,7 @@ if [ $# -eq 1 ]; then
     INSTALLER_MODE=true
     print "Compilation + Installer build requested"
 else
-    print "Compilation requested."
+    print "Compilation requested Only."
 fi
 
 if ! commandExists windres; then
@@ -73,9 +81,12 @@ printf 'Starting compilation process...\n\n'
 
 printf 'Compiling CleanWrap...\n'
 printf 'Processing icon resource: %s\n' "$ICON_RC"
+
 windres "$ICON_RC" -O coff -o "$ICON_OBJ"
+
 printf 'Icon resource compiled to %s\n\n' "$ICON_OBJ"
 printf 'Linking application executable...\n'
+
 g++ -O2 -std=c++20 -Wall -Wextra -Iinclude main.cpp src/*.cpp "$ICON_OBJ" -o "$OUTPUT_EXE" -mwindows -static -static-libgcc -static-libstdc++ -lwinhttp
 
 rm -f "$ICON_OBJ"
@@ -83,8 +94,8 @@ printf '\nCompilation completed successfully: %s\n' "$OUTPUT_EXE"
 
 if [ "$INSTALLER_MODE" = true ]; then
     printf '\nPreparing installer build...\n'
-    # make dir if no exists, skip if exists
     mkdir -p "$BUILD_DIR"
+
     printf 'Running Inno Setup Compiler on %s\n' "$INNO_SCRIPT"
     MSYS_NO_PATHCONV=1 ISCC "/DCleanWrapVersion=$VERSION" "$INNO_SCRIPT"
     printf 'Installer build completed.\n'

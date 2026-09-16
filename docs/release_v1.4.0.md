@@ -1,19 +1,26 @@
-# 🧹 CleanWrap — Smart File Organization for Windows [v1.3.0]
+# 🧹 CleanWrap — Smart File Organization for Windows [v1.4.0]
 
 > ![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue)
 > ![Platform](https://img.shields.io/badge/Platform-Windows-success)
 > ![License](https://img.shields.io/badge/License-MIT-green)
-> ![Version](https://img.shields.io/badge/v1.3.0-8A2BE2)
+> ![Version](https://img.shields.io/badge/v1.4.0-8A2BE2)
 
-**CleanWrap v1.3.0** 🎉
+**CleanWrap v1.4.0** 🎉
 
-# 🤔 What's New
+# 🤔 What's New Now?
 
 - Added an optional installer task to organize the Desktop automatically when Windows starts.
 - Desktop organization can be enabled independently from Downloads organization.
 - Desktop startup uses the current user's Desktop path, so files are organized in the correct user profile.
 - Desktop startup registration is removed automatically when CleanWrap is uninstalled.
 - Preserved the existing Explorer context-menu workflow for organizing any selected folder.
+
+## [🔥HOT] 🧹 Windows Temporary File Cleanup
+
+- CleanWrap clears user and Windows temporary directories every time it runs.
+- The Windows Prefetch cache is cleared when the application has permission to access it.
+- Cleanup preserves the directories themselves and skips locked or protected files.
+- Cleanup errors are reported without preventing Downloads or Desktop organization.
 
 ## 🖥️ Optional Desktop Startup
 
@@ -41,8 +48,8 @@
 
 ## 🧩 Centralized Version Management
 
-- The application version is managed from one shared `Version.hpp` file.
-- The application, update checker, build script, release script, and installer use the same version.
+- The release version is managed from the root `release.json` file.
+- `Version.hpp` is generated from `release.json`; the application, update checker, build script, release script, installer, and website use the same version.
 - Installer names and release tags can be updated without changing several source files manually.
 
 ## 🛠️ Build and Compatibility Improvements
@@ -57,6 +64,6 @@ Download the latest installer from the GitHub Releases page:
 
 [![Download Latest Release](https://img.shields.io/badge/📥-Download%20Latest%20Release-blue?style=for-the-badge)](https://github.com/ettisafxrup/CleanWrap/releases/latest)
 
-The installer is named `CleanWrap_v1.3.0_Setup.exe`.
+The installer is named `CleanWrap_v1.4.0_Setup.exe`.
 
 <small><i>CleanWrap © 2026 • Developed by Ettisaf Rup • Released under the MIT License</i></small>

@@ -1,10 +1,9 @@
 name: Release CleanWrap
 
 on:
-  workflow_dispatch:
   push:
-    tags:
-      - "v*"
+    paths:
+      - "release.json"
 
 permissions:
   contents: write
@@ -15,28 +14,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout tagged commit
+      - name: Checkout release commit
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          ref: ${{ github.ref }}
+          fetch-depth: 1
+          fetch-tags: true
 
       # ─────────────────────────────────────────────
       # Extract version
       # ─────────────────────────────────────────────
+
       - name: Extract version
         id: version
         shell: bash
         run: |
-          TAG="${GITHUB_REF_NAME}"
+          VERSION=$(sed -n 's/^[[:space:]]*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' release.json)
 
-          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "ERROR: Invalid release tag: $TAG"
-            echo "Expected format: v1.0.1"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "ERROR: Invalid version in release.json: $VERSION"
+            echo "Expected format: 1.0.1"
             exit 1
           fi
 
-          VERSION="${TAG#v}"
+          TAG="v$VERSION"
 
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
@@ -44,14 +44,27 @@ jobs:
           echo "Release tag: $TAG"
           echo "Release version: $VERSION"
 
+      - name: Check existing release tag
+        id: tag
+        shell: bash
+        run: |
+          if git rev-parse --verify --quiet "refs/tags/${{ steps.version.outputs.tag }}"; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Tag already exists; release preparation will be skipped."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       # ─────────────────────────────────────────────
       # Locate installer
       # ─────────────────────────────────────────────
+
       - name: Locate installer
         id: installer
+        if: steps.tag.outputs.exists != 'true'
         shell: bash
         run: |
-          INSTALLER="release/CleanWrap_v${{ steps.version.outputs.version }}_Setup.exe"
+          INSTALLER="release/CleanWrap_v${{ steps.version.outputs.version }}.exe"
 
           if [ ! -f "$INSTALLER" ]; then
             echo "ERROR: Installer not found:"
@@ -70,18 +83,20 @@ jobs:
       # ─────────────────────────────────────────────
       # Locate release notes
       # ─────────────────────────────────────────────
+
       - name: Locate release notes
         id: notes
+        if: steps.tag.outputs.exists != 'true'
         shell: bash
         run: |
-          NOTES="docs/release_notes/note_v${{ steps.version.outputs.version }}.md"
+          NOTES="docs/release_v${{ steps.version.outputs.version }}.md"
 
           if [ ! -f "$NOTES" ]; then
             echo "ERROR: Release notes not found:"
             echo "$NOTES"
             echo ""
             echo "Available release notes:"
-            ls -lah docs/release_notes/ || true
+            ls -lah docs/ || true
             exit 1
           fi
 
@@ -91,24 +106,12 @@ jobs:
           ls -lh "$NOTES"
 
       # ─────────────────────────────────────────────
-      # Calculate SHA-256
-      # ─────────────────────────────────────────────
-      - name: Calculate SHA-256
-        id: hash
-        shell: bash
-        run: |
-          HASH=$(sha256sum "${{ steps.installer.outputs.installer }}" | awk '{print $1}')
-
-          echo "sha256=$HASH" >> "$GITHUB_OUTPUT"
-          echo "SHA-256:"
-          echo "$HASH"
-
-      # ─────────────────────────────────────────────
       # Create GitHub Release
       # ─────────────────────────────────────────────
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
+        if: steps.tag.outputs.exists != 'true'
         with:
           name: CleanWrap v${{ steps.version.outputs.version }}
           tag_name: ${{ steps.version.outputs.tag }}
