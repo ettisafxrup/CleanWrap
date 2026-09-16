@@ -1,4 +1,4 @@
-📁 Repository Structure:
+📁 Application Structure:
 
 .
 ├── 📂 assets
@@ -9,7 +9,6 @@
 │ ├── logo.png
 │
 ├── 📂 docs
-│
 │ ├── 📂 .txt
 │ │ ├── CleanWrap_User_Manual_v1.0.txt
 │ │ ├── GREETING.txt
@@ -18,27 +17,18 @@
 │ │ ├── UNINSTALL.txt
 │ │ ├── User_Manual.txt
 │ ├── index.html
-│ │
-│ ├── 📂 release_notes
-│ │ │
-│ │ ├── note_v1.0.0.md
-│ │ ├── note_v1.0.1.md
-│ │ ├── note_v1.2.0.md
-│ │ │
+│ ├── release_v1.4.0.md
+│
 │ ├── 📂 web
-│ │ │ │
 │ │ ├── 📂 assets
 │ │ │ ├── dev.png
 │ │ │ ├── logo.png
-│ │ │ │
 │ │ ├── 📂 css
 │ │ │ ├── animations.css
 │ │ │ ├── responsive.css
 │ │ │ ├── style.css
-│ │ │ │
 │ │ ├── 📂 fonts
 │ │ │ ├── inter.css
-│ │ │ │
 │ │ ├── 📂 js
 │ │ │ ├── animations.js
 │ │ │ ├── main.js
@@ -51,15 +41,16 @@
 │ ├── Notifications.hpp
 │ ├── Statistics.hpp
 │ ├── UpdateChecker.hpp
-│ ├── Version.hpp
+│ ├── WindowsCleanup.hpp
 │
 ├── 📂 innosetup
 │ ├── cleanwrap_inno.iss
-│
+
 ├── 📂 release
-│ ├── CleanWrap_v1.0.0_Setup.exe
-│ ├── CleanWrap_v1.0.1_Setup.exe
-│ ├── CleanWrap_v1.2.0_Setup.exe
+│ ├── CleanWrap_v1.4.0.exe
+│
+├── 📂 scripts
+│ ├── build.sh
 │
 ├── 📂 src
 │ ├── DuplicateDetector.cpp
@@ -68,8 +59,9 @@
 │ ├── FileTypes.cpp
 │ ├── Statistics.cpp
 │ ├── UpdateChecker.cpp
+│ ├── WindowsCleanup.cpp
 │
 ├── main.cpp
-│
-├── release.sh
-├── compile.sh
+├── README.md
+├── LICENSE
+├── release.json

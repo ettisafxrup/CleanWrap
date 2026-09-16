@@ -1,124 +1,169 @@
-<center>
-<img width="800" height="400" alt="WhatsApp Image 2026-08-06 at 22 19 22" src="https://github.com/user-attachments/assets/d111e073-c3c8-47ec-92e2-553ace4b329f" />
-</center>
+<div align="center">
 
-# 📂 CleanWrap
+<img width="800" height="400" alt="CleanWrap" src="https://github.com/user-attachments/assets/d111e073-c3c8-47ec-92e2-553ace4b329f" />
 
-> A lightweight C++ application that automatically organizes your Downloads folder into categorized directories with smart duplicate detection.
+# 🧹 CleanWrap
 
-![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue)
-![Platform](https://img.shields.io/badge/Platform-Windows-success)
-![License](https://img.shields.io/badge/License-MIT-green)
+**A lightweight Windows utility for automatically organizing files, detecting duplicates, and cleaning temporary files.**
+
+[![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue)](https://isocpp.org/)
+[![Platform](https://img.shields.io/badge/Platform-Windows-success)](https://www.microsoft.com/windows)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/ettisafxrup/CleanWrap)](https://github.com/ettisafxrup/CleanWrap/releases/latest)
+
+</div>
 
 ---
 
 ## 📖 Overview
 
-**CleanWrap** is a desktop utility built entirely in modern C++ that helps keep your **Downloads** folder clean and organized.
+**CleanWrap** is a lightweight Windows desktop utility built with **Modern C++20** that automatically organizes files, detects duplicate copies, and cleans temporary files.
 
-Instead of manually sorting downloaded files, CleanWrap automatically classifies them into dedicated folders while intelligently handling duplicate files.
+It is designed primarily around the **Downloads** folder, but can also organize other directories directly through the Windows Explorer context menu.
 
-The application is designed to run once, organize everything in seconds, generate a cleanup report, and exit.
+Instead of manually sorting files, identifying duplicate downloads, and removing accumulated temporary files, CleanWrap handles these tasks automatically in a single execution.
+
+The application follows a simple workflow:
+
+<center>
+
+> **Scan → Classify → Detect → Organize → Clean → Report**
+
+</center>
+
+CleanWrap is designed to perform its work quickly and exit without continuously running in the background.
 
 ---
 
 ## ✨ Features
 
-- Automatically organizes downloaded files
-- Organizes any folder through the Windows Explorer Context Menu
-- Categorizes files by extension
-- Creates category folders only when needed
-- Creates duplicate folders only when duplicates are detected
-- Supports documents, images, videos, audio, code files, archives, executables, installers, and many more
-- Detects duplicate files using high-speed 64-bit FNV-1a hashing
-- Recognizes common Windows duplicate filename patterns
-- Places duplicate files into dedicated duplicate folders
-- Cleans user and Windows temporary files at startup
-- Clears the Windows Prefetch cache when permitted
-- Automatically generates detailed cleanup logs
-- Can automatically organize Downloads every time Windows starts (optional)
-- Lightweight and extremely fast
-- Modular object-oriented architecture
-- Built entirely using Modern C++20
+### 📂 File Organization
+
+- Automatically organizes files in the Downloads folder
+- Supports organizing any directory through Windows Explorer
+- Classifies files into dedicated category folders
+- Creates category directories only when required
+- Preserves the original directory structure where possible
+- Handles files with unknown or unsupported extensions safely
+
+### 🧠 Duplicate Detection
+
+- Multi-stage duplicate detection pipeline
+- File-size based filtering
+- Partial-content hashing using the first and last 64 KiB
+- Full-content verification for potential duplicates
+- High-speed **64-bit FNV-1a hashing**
+- Recognition of common Windows duplicate filename patterns
+- Timestamp-aware duplicate handling
+- Dedicated duplicate folders created only when necessary
+
+### 🧹 Windows Cleanup
+
+- Cleans user temporary files
+- Cleans Windows temporary files where permitted
+- Attempts to clear the Windows Prefetch cache
+- Skips files that are locked or inaccessible
+- Continues execution when individual cleanup operations fail
+- Reports cleanup errors instead of silently ignoring them
+
+### 📝 Reporting & Logging
+
+- Generates a detailed cleanup report after every execution
+- Records cleanup session timestamps
+- Tracks category-wise file counts
+- Reports duplicate statistics
+- Records errors and skipped operations
+- Appends new sessions instead of overwriting previous logs
+
+### ⚙️ Windows Integration
+
+- Windows Explorer context menu integration
+- Optional startup automation
+- Optional automatic Downloads organization at Windows startup
+- Windows Registry integration
+- Lightweight standalone executable
 
 ---
 
 ## 🧹 Windows Cleanup
 
-At startup, CleanWrap removes the contents of the following Windows cleanup locations:
+CleanWrap can remove unnecessary temporary files that accumulate over time.
 
-- The current user's `%TEMP%` directory
-- `%LOCALAPPDATA%\Temp`
-- `%WINDIR%\Temp`
-- `%WINDIR%\Prefetch`
+The application operates conservatively:
 
-The directories themselves are preserved. Files that are locked or require additional permissions are skipped and reported without stopping the rest of the cleanup or file organization.
+- Directory structures are preserved.
+- Files that are currently locked are skipped.
+- Files requiring elevated permissions may be skipped.
+- Cleanup continues even when individual files cannot be removed.
+- Failed operations are recorded in the generated log.
 
-After installing CleanWrap, your **Downloads** folder will look cleaner than ever!
+CleanWrap **does not attempt to remove arbitrary personal files** simply because they are old or unused. Cleanup operations are limited to the locations and file types explicitly handled by the application.
 
-## 📂 Downloads Folder Structure
+---
 
-Folders are created only when at least one file belongs to that category. Likewise, duplicate folders are created only when duplicate files are detected.
+## 📂 File Organization
+
+CleanWrap analyzes files and places them into appropriate categories.
+
+For example:
 
 ```text
 Downloads/
-
-├── Images/
-│   └── Duplicates/ (if any)
-│
-├── PDFs/
-│   └── Duplicates/ (if any)
-│
-├── Videos/
-│   └── Duplicates/ (if any)
-│
-├── Audio/
-│   └── Duplicates/ (if any)
-│
-├── Code/
-│   └── Duplicates/ (if any)
-│
 ├── Documents/
-│   └── Duplicates/ (if any)
-│
-├── Zips/
-│   └── Duplicates/ (if any)
-│
-├── Executables and Installers/
-│   └── Duplicates/ (if any)
-│
+├── Images/
+├── Videos/
+├── Audio/
+├── Archives/
+├── Applications/
+├── Code/
 ├── Others/
-│   └── Duplicates/ (if any)
-│
-└── _CleanWrap.log
-
+└── Duplicates/
 ```
+
+> Category names and supported file types may change between releases.
+
+Directories are created **only when at least one file belongs to that category**.
+
+Likewise, the `Duplicates` directory is created only when duplicate files are detected.
 
 ---
 
 ## 🧠 Duplicate Detection
 
-CleanWrap uses a staged duplicate detection system.
+CleanWrap uses a staged duplicate-detection pipeline designed to avoid unnecessarily hashing every file in its entirety.
 
 ### 1. File Size Filtering
 
-Files are first grouped by their size. Files with different sizes cannot be duplicates, so no content hashing is needed for them.
+Files are initially grouped by file size.
+
+Two files with different sizes cannot contain identical content, so they can immediately be excluded from duplicate comparison.
+
+This significantly reduces the number of files requiring further analysis.
 
 ### 2. Partial Hash Filtering
 
-Files with the same size are partially hashed using their first and last 64 KiB. This quickly filters out files that only happen to have the same size.
+Files with matching sizes are partially hashed using:
 
-### 3. Full Hash Detection
+- The first 64 KiB
+- The last 64 KiB
 
-Only files that pass the size and partial-hash checks are hashed completely using the fast 64-bit FNV-1a hashing algorithm.
+This provides a fast way to eliminate files that happen to share the same size but contain different data.
 
-If another file with the exact same content already exists, CleanWrap identifies it as a duplicate.
+### 3. Full Hash Verification
+
+Only files that pass the previous stages are processed using a complete content hash.
+
+CleanWrap uses the **64-bit FNV-1a hashing algorithm** for this stage.
+
+A matching full-content hash identifies files as potential duplicates, after which CleanWrap applies its duplicate-handling rules.
 
 ---
 
-### 4. Windows Copy Pattern Recognition
+### 🤔 Windows Filename Pattern Recognition
 
-CleanWrap also recognizes common Windows duplicate filename patterns, including:
+CleanWrap additionally recognizes common filename patterns produced by Windows when duplicate files are downloaded or copied.
+
+Examples:
 
 ```text
 My File (1).pdf
@@ -127,51 +172,70 @@ Holiday - Copy.jpg
 Assignment - Copy (3).docx
 ```
 
-These filename patterns are checked alongside hash matching before classifying them as duplicates.
+These patterns are considered alongside content-based duplicate detection.
 
-### 5. Timestamp-Aware Duplicate Handling
+---
 
-When identical files are detected, CleanWrap intelligently keeps the original file in the main category folder while moving Windows-generated duplicate copies (such as `(1)` or `- Copy`) into the corresponding duplicate folder.
+### 🕒 Timestamp-Aware Handling
 
-This preserves the original file structure while separating unnecessary duplicates.
+When identical files are detected, CleanWrap attempts to preserve the original file while separating generated duplicate copies.
+
+For example:
+
+```text
+Documents/
+└── Assignment.docx
+
+Duplicates/
+├── Assignment (1).docx
+└── Assignment (2).docx
+```
+
+This keeps the primary category directory clean while retaining duplicate files instead of immediately deleting them.
 
 ---
 
 ## 📝 Logging
 
-After every execution, CleanWrap generates a report named
+After every execution, CleanWrap generates or updates:
 
 ```text
 _CleanWrap.log
 ```
 
-The report includes:
+The log contains information such as:
 
-- Cleanup session timestamp
-- Category-wise file counts
-- Total files handled
-- Duplicate statistics
-- Error statistics
+```text
+Cleanup session timestamp
+Category-wise file counts
+Total files processed
+Duplicate statistics
+Cleanup statistics
+Skipped files
+Error statistics
+```
 
-Logs are appended instead of overwritten, preserving the history of every cleanup session.
+Logs are **appended rather than overwritten**, allowing previous cleanup sessions to remain available for reference.
 
 ---
 
-## 🛠 Technologies Used
+## 🛠️ Technology Stack
 
-- Modern C++20
-- STL
-- FNV-1a 64-bit Hashing
+CleanWrap is built using:
+
+- **C++20**
+- C++ Standard Library
 - `<filesystem>`
 - `<unordered_map>`
 - `<regex>`
 - `<fstream>`
+- FNV-1a 64-bit hashing
 - Object-Oriented Programming
-- Modular Project Architecture
-- Windows Registry Integration
-- Windows Explorer Context Menu
-- Shell Scripts
-- Inno Scripts
+- Modular project architecture
+- Windows Registry APIs
+- Windows Explorer integration
+- Shell scripting
+- Inno Setup
 
 ---
 
@@ -179,13 +243,14 @@ Logs are appended instead of overwritten, preserving the history of every cleanu
 
 ```text
 CleanWrap/
-.
+│
 ├── assets/
 │   ├── cleanwrap.ico
 │   ├── icon.rc
 │   ├── installer_banner.bmp
 │   ├── installer_icon.bmp
 │   └── logo.png
+│
 ├── docs/
 │   ├── .txt/
 │   │   ├── CleanWrap_User_Manual_v1.0.txt
@@ -194,22 +259,16 @@ CleanWrap/
 │   │   ├── THANK_YOU.txt
 │   │   ├── UNINSTALL.txt
 │   │   └── User_Manual.txt
+│   │
 │   ├── index.html
-│   ├── release_notes/
-│   │   ├── note_v1.0.0.md
-│   │   ├── note_v1.0.1.md
-│   │   └── note_v1.2.0.md
+│   ├── release_v1.4.0.md
+│   │
 │   └── web/
 │       ├── assets/
 │       ├── css/
-│       │   ├── animations.css
-│       │   ├── responsive.css
-│       │   └── style.css
 │       ├── fonts/
-│       │   └── inter.css
 │       └── js/
-│           ├── animations.js
-│           └── main.js
+│
 ├── include/
 │   ├── DuplicateDetector.hpp
 │   ├── FileClassifier.hpp
@@ -218,14 +277,17 @@ CleanWrap/
 │   ├── Notifications.hpp
 │   ├── Statistics.hpp
 │   ├── UpdateChecker.hpp
-│   ├── WindowsCleanup.hpp
-│   └── Version.hpp
+│   └── WindowsCleanup.hpp
+│
 ├── innosetup/
 │   └── cleanwrap_inno.iss
+│
 ├── release/
-│   ├── CleanWrap_v1.0.0_Setup.exe
-│   ├── CleanWrap_v1.0.1_Setup.exe
-│   └── CleanWrap_v1.2.0_Setup.exe
+│   └── CleanWrap_v1.4.0.exe
+│
+├── scripts/
+│   └── build.sh
+│
 ├── src/
 │   ├── DuplicateDetector.cpp
 │   ├── FileClassifier.cpp
@@ -234,84 +296,190 @@ CleanWrap/
 │   ├── Statistics.cpp
 │   ├── UpdateChecker.cpp
 │   └── WindowsCleanup.cpp
+│
 ├── main.cpp
-├── release.sh
-└── compile.sh
-
+├── LICENSE
+├── README.md
+└── release.json
 ```
 
 ---
 
 ## 💻 Installation
 
-Download the latest installer from the Releases page.
+Download and Install CleanWrap from the Website:
+[Download CleanWrap (Latest)](https://ettisafxrup.github.io/CleanWrap)
 
-Run the installer and optionally enable:
+Or, You can download the latest installer from the project's [Release](https://github.com/ettisafxrup/CleanWrap/releases/latest) page.
 
-- Windows Explorer Context Menu Integration
-- Automatically organize Downloads when Windows starts
+During installation, you may optionally enable:
 
-After installation, you can:
+- **Windows Explorer Context Menu Integration**
+- **Automatic Downloads Organization at Windows Startup**
 
-- Launch CleanWrap normally to organize the Downloads folder.
-- Right-click inside any folder and select **Organize with CleanWrap**.
+After installation, CleanWrap can be used in two ways.
+
+### Normal Execution
+
+Launch CleanWrap to organize and clean the configured Downloads directory.
+
+### Windows Explorer
+
+Right-click inside a supported directory and select:
+
+```text
+🧹 Organize with CleanWrap
+```
+
+CleanWrap will process the selected directory and exit after completing the operation.
 
 ---
 
-## 🚀 Building in Local
+## 🔨 Building Locally
 
-Compile using g++:
+### Requirements
+
+- Windows
+- MinGW-w64 / GCC
+- C++20-compatible compiler
+- Git
+
+### Manual Build
+
+From the project root:
 
 ```bash
-g++ -O2 -std=c++17 ^
+g++ -O2 -std=c++20 ^
 -Iinclude ^
 main.cpp ^
 src/*.cpp ^
 -o CleanWrap.exe
 ```
 
-For Release builds:
+### One-Click Build
 
 ```bash
-./release.sh
+cd scripts
+./build.sh
 ```
 
-For Compiling builds:
-
-```bash
-./release.sh
-```
+> The project targets **C++20**, so the compiler must support the required C++20 features.
 
 ---
 
-## ✅ Scored Targeted Improvements
+## 🧪 Testing
 
-- Configuration file support ✅
-- File-type icons ✅
-- Easier Installation with Installer ✅
-- One-Click Tide Directory Feature ✅
-- Better Logging ✅
+Before submitting changes, verify the application against:
 
----
+- Empty directories
+- Large directories
+- Files with unknown extensions
+- Files with identical sizes but different contents
+- Exact duplicate files
+- Windows-generated duplicate filenames
+- Locked files
+- Permission-restricted files
+- Files with Unicode names
+- Very large files
+- Empty files
+- Startup execution
+- Explorer context-menu execution
 
-## 🖋 Author
-
-**Ettisaf Rup**  
-GitHub: https://github.com/ettisafxrup
-
-Designed and developed with ❤️ using Modern C++.
-
----
-
-## 🤲 Support CleanWrap
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
-It helps others discover the project and motivates future improvements.
-
-and if anyone wills to donate, you can bring me to a tong.
-
-[![Download Latest Release](https://img.shields.io/badge/Download-CleanWrap-success?style=for-the-badge)](https://github.com/ettisafxrup/CleanWrap/releases/latest)
+When modifying duplicate detection or file organization logic, testing should include both normal and edge-case scenarios to ensure that files are not accidentally moved or classified incorrectly.
 
 ---
 
-<small> _ettisafxrup CleanWrap@2026 | all rights reserved_ </small>
+## 🐛 Reporting Issues
+
+Found a bug?
+Please open an [issue](https://github.com/ettisafxrup/CleanWrap/issues) with enough information to reproduce the problem.
+
+Please **do not upload private or sensitive files** merely to demonstrate a problem.
+
+---
+
+## 💡 Feature Requests
+
+Feature suggestions are welcome.
+
+Before opening a feature request:
+
+1. Check whether the feature has already been requested.
+2. Explain the problem the feature would solve.
+3. Describe the proposed behavior.
+4. Include examples where appropriate.
+
+Features that improve reliability, safety, performance, accessibility, or Windows integration are particularly useful areas for discussion.
+
+# 💖 Sponsoring CleanWrap
+
+CleanWrap is developed as an independent open-source project.
+
+If you find the project useful and would like to support its continued development, sponsorship can help fund:
+
+- Development and maintenance
+- Testing across Windows environments
+- Infrastructure and hosting
+- Documentation
+- Distribution and release tooling
+- Future features and improvements
+
+You can support the project through the repository's **Sponsor** options when available.
+
+---
+
+## 📜 License
+
+CleanWrap is distributed under the **MIT License**.
+
+See [`LICENSE`](LICENSE) for the complete license text.
+
+In short, the MIT License permits use, modification, distribution, and private or commercial use, subject to the conditions specified in the license.
+
+---
+
+## 🔐 Privacy & Safety
+
+CleanWrap is designed to operate locally on the user's Windows machine.
+
+The application does not need to upload the user's personal files to a remote server to perform its core organization and duplicate-detection functions.
+
+---
+
+## 👨‍💻 Author
+
+**Ettisaf Rup**
+
+Computer Science & Engineering undergraduate and independent software developer.
+
+- GitHub: [@ettisafxrup](https://github.com/ettisafxrup)
+- Project: [CleanWrap](https://github.com/ettisafxrup/CleanWrap)
+
+Designed and developed with ❤️ using **Modern C++**.
+
+---
+
+## ⭐ Support the Project
+
+If CleanWrap helped you keep your system organized, consider:
+
+- ⭐ Starring the repository
+- 🐛 Reporting bugs
+- 💡 Suggesting features
+- 🤝 Contributing code
+- 📖 Improving documentation
+- 📢 Sharing the project
+- 💖 Sponsoring development
+
+Even a GitHub star helps more people discover the project.
+
+---
+
+<div align="center">
+
+**CleanWrap — Because your folders deserve better.**
+
+Made with ❤️ by **Ettisaf Rup**
+© 2026 ettisafxrup. All rights reserved.
+
+</div>
